@@ -19,13 +19,13 @@ class Boss(Enemy):
         self.crit = crit  # Boss Enemy chance to do 1.5x damage
 
 
-Mouse = Enemy(1,1,10,10,1,1,1,2,1)
-Giant_Rat = Enemy(1,1,10,10,1,1,1,2,1)
-Rabid_Dog = Enemy(1,1,10,10,1,1,1,2,1)
-Skeleton = Enemy(1,1,10,10,1,1,1,2,1)
-Thief = Boss(1,1,10,10,1,1,1,2,1,1,1)
-Zombie = Enemy(1,1,10,10,1,1,1,2,1)
-Yeti = Enemy(1,1,10,10,1,1,1,2,1)
-Vampire = Enemy(1,1,10,10,1,1,1,2,1)
-Minotaur = Enemy(1,1,10,10,1,1,1,2,1)
-Dragon = Boss(1,1,10,10,1,1,1,2,1,1,1)
+Mouse = Enemy(1,1,10,10,1,1,1,2,1,1)
+Giant_Rat = Enemy(1,1,10,10,1,1,1,2,1,1)
+Rabid_Dog = Enemy(1,1,10,10,1,1,1,2,1,1)
+Skeleton = Enemy(1,1,10,10,1,1,1,2,1,1)
+Thief = Boss(1,1,10,10,1,1,1,2,1,1,1,1)
+Zombie = Enemy(1,1,10,10,1,1,1,2,1,1)
+Yeti = Enemy(1,1,10,10,1,1,1,2,1,1)
+Vampire = Enemy(1,1,10,10,1,1,1,2,1,1)
+Minotaur = Enemy(1,1,10,10,1,1,1,2,1,1)
+Dragon = Boss(1,1,10,10,1,1,1,2,1,1,1,1)

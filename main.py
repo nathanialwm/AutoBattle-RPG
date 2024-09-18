@@ -29,6 +29,28 @@ menu_stats_rect = menu_stats_surface.get_rect(midtop = (720, 20))
 
 # Create visuals and menus for battle screen
 
+# Buttons for enemy types | Button size 340x42
+enemy_mouse_surface = pygame.image.load('images/Buttons/button_mouse.png')
+enemy_mouse_rect = enemy_mouse_surface.get_rect(topleft = (134, 442))
+enemy_giant_rat_surface = pygame.image.load('images/Buttons/button_giant-rat.png')
+enemy_giant_rat_rect = enemy_giant_rat_surface.get_rect(topleft = (134, 487))
+enemy_rabid_dog_surface = pygame.image.load('images/Buttons/button_rabid-dog.png')
+enemy_rabid_dog_rect = enemy_rabid_dog_surface.get_rect(topleft = (134, 532))
+enemy_skeleton_surface = pygame.image.load('images/Buttons/button_skeleton.png')
+enemy_skeleton_rect = enemy_skeleton_surface.get_rect(topleft = (134, 577))
+boss_thief_surface = pygame.image.load('images/Buttons/button_thief.png')
+boss_thief_rect = boss_thief_surface.get_rect(topleft = (134, 622))
+enemy_zombie_surface = pygame.image.load('images/Buttons/button_zombie.png')
+enemy_zombie_rect = enemy_zombie_surface.get_rect(topleft = (486, 442))
+enemy_yeti_surface = pygame.image.load('images/Buttons/button_yeti.png')
+enemy_yeti_rect = enemy_yeti_surface.get_rect(topleft = (486, 487))
+enemy_vampire_surface = pygame.image.load('images/Buttons/button_vampire.png')
+enemy_vampire_rect = enemy_vampire_surface.get_rect(topleft = (486, 532))
+enemy_minotaur_surface = pygame.image.load('images/Buttons/button_minotaur.png')
+enemy_minotaur_rect = enemy_minotaur_surface.get_rect(topleft = (486, 577))
+boss_dragon_surface = pygame.image.load('images/Buttons/button_dragon.png')
+boss_dragon_rect = boss_dragon_surface.get_rect(topleft = (486, 622))
+
 while running:
     # Draw Menu items that are always visible
     screen.fill('#bdbdbd')
@@ -73,8 +95,18 @@ while running:
     # Create screen elements for each of the three 'pages'
     # Create battle screen
     if battle_screen:
-        pass
-
+        # Put enemy button objects on screen
+        screen.blit(enemy_mouse_surface, enemy_mouse_rect)
+        screen.blit(enemy_giant_rat_surface, enemy_giant_rat_rect)
+        screen.blit(enemy_rabid_dog_surface, enemy_rabid_dog_rect)
+        screen.blit(enemy_skeleton_surface, enemy_skeleton_rect)
+        screen.blit(boss_thief_surface, boss_thief_rect)
+        screen.blit(enemy_zombie_surface, enemy_zombie_rect)
+        screen.blit(enemy_yeti_surface, enemy_yeti_rect)
+        screen.blit(enemy_vampire_surface, enemy_vampire_rect)
+        screen.blit(enemy_minotaur_surface, enemy_minotaur_rect)
+        screen.blit(boss_dragon_surface, boss_dragon_rect)
+        
     # Create equipment screen
     if equip_screen:
         pass
