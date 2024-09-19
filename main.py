@@ -28,6 +28,76 @@ menu_stats_surface = game_menu_font.render('Stats', True, 'Black')
 menu_stats_rect = menu_stats_surface.get_rect(midtop = (720, 20))
 
 # Create visuals and menus for battle screen
+# Enemy Portrait Icons
+mouse_icon_surface = pygame.image.load('images/Icons/icon_mouse.jpg').convert_alpha()
+mouse_icon_surface = pygame.transform.scale(mouse_icon_surface, (180, 180))
+mouse_icon_rect = mouse_icon_surface.get_rect(midtop = (240, 100))
+
+giant_rat_icon_surface = pygame.image.load('images/Icons/icon_giant_rat.jpg').convert_alpha()
+giant_rat_icon_surface = pygame.transform.scale(giant_rat_icon_surface, (180, 180))
+giant_rat_icon_rect = giant_rat_icon_surface.get_rect(midtop = (240, 100))
+
+rabid_dog_icon_surface = pygame.image.load('images/Icons/icon_rabid_dog.jpg').convert_alpha()
+rabid_dog_icon_surface = pygame.transform.scale(rabid_dog_icon_surface, (180, 180))
+rabid_dog_icon_rect = rabid_dog_icon_surface.get_rect(midtop = (240, 100))
+
+skeleton_icon_surface = pygame.image.load('images/Icons/icon_skeleton.jpg').convert_alpha()
+skeleton_icon_surface = pygame.transform.scale(skeleton_icon_surface, (180, 180))
+skeleton_icon_rect = skeleton_icon_surface.get_rect(midtop = (240, 100))
+
+thief_icon_surface = pygame.image.load('images/Icons/icon_thief.jpg').convert_alpha()
+thief_icon_surface = pygame.transform.scale(thief_icon_surface, (180, 180))
+thief_icon_rect = thief_icon_surface.get_rect(midtop = (240, 100))
+
+zombie_icon_surface = pygame.image.load('images/Icons/icon_zombie.jpg').convert_alpha()
+zombie_icon_surface = pygame.transform.scale(zombie_icon_surface, (180, 180))
+zombie_icon_rect = zombie_icon_surface.get_rect(midtop = (240, 100))
+
+yeti_icon_surface = pygame.image.load('images/Icons/icon_yeti.jpg').convert_alpha()
+yeti_icon_surface = pygame.transform.scale(yeti_icon_surface, (180, 180))
+yeti_icon_rect = yeti_icon_surface.get_rect(midtop = (240, 100))
+
+vampire_icon_surface = pygame.image.load('images/Icons/icon_vampire.jpg').convert_alpha()
+vampire_icon_surface = pygame.transform.scale(vampire_icon_surface, (180, 180))
+vampire_icon_rect = vampire_icon_surface.get_rect(midtop = (240, 100))
+
+minotaur_icon_surface = pygame.image.load('images/Icons/icon_minotaur.jpg').convert_alpha()
+minotaur_icon_surface = pygame.transform.scale(minotaur_icon_surface, (180, 180))
+minotaur_icon_rect = minotaur_icon_surface.get_rect(midtop = (240, 100))
+
+dragon_icon_surface = pygame.image.load('images/Icons/icon_dragon.jpg').convert_alpha()
+dragon_icon_surface = pygame.transform.scale(dragon_icon_surface, (180, 180))
+dragon_icon_rect = dragon_icon_surface.get_rect(midtop = (240, 100))
+# Buttons for enemy types | Button size 340x42
+enemy_mouse_surface = pygame.image.load('images/Buttons/button_mouse.png').convert_alpha()
+enemy_mouse_rect = enemy_mouse_surface.get_rect(topleft = (134, 442))
+
+enemy_giant_rat_surface = pygame.image.load('images/Buttons/button_giant-rat.png').convert_alpha()
+enemy_giant_rat_rect = enemy_giant_rat_surface.get_rect(topleft = (134, 487))
+
+enemy_rabid_dog_surface = pygame.image.load('images/Buttons/button_rabid-dog.png').convert_alpha()
+enemy_rabid_dog_rect = enemy_rabid_dog_surface.get_rect(topleft = (134, 532))
+
+enemy_skeleton_surface = pygame.image.load('images/Buttons/button_skeleton.png').convert_alpha()
+enemy_skeleton_rect = enemy_skeleton_surface.get_rect(topleft = (134, 577))
+
+boss_thief_surface = pygame.image.load('images/Buttons/button_thief.png').convert_alpha()
+boss_thief_rect = boss_thief_surface.get_rect(topleft = (134, 622))
+
+enemy_zombie_surface = pygame.image.load('images/Buttons/button_zombie.png').convert_alpha()
+enemy_zombie_rect = enemy_zombie_surface.get_rect(topleft = (486, 442))
+
+enemy_yeti_surface = pygame.image.load('images/Buttons/button_yeti.png').convert_alpha()
+enemy_yeti_rect = enemy_yeti_surface.get_rect(topleft = (486, 487))
+
+enemy_vampire_surface = pygame.image.load('images/Buttons/button_vampire.png').convert_alpha()
+enemy_vampire_rect = enemy_vampire_surface.get_rect(topleft = (486, 532))
+
+enemy_minotaur_surface = pygame.image.load('images/Buttons/button_minotaur.png').convert_alpha()
+enemy_minotaur_rect = enemy_minotaur_surface.get_rect(topleft = (486, 577))
+
+boss_dragon_surface = pygame.image.load('images/Buttons/button_dragon.png').convert_alpha()
+boss_dragon_rect = boss_dragon_surface.get_rect(topleft = (486, 622))
 
 while running:
     # Draw Menu items that are always visible
@@ -73,8 +143,19 @@ while running:
     # Create screen elements for each of the three 'pages'
     # Create battle screen
     if battle_screen:
-        pass
-
+        screen.blit(mouse_icon_surface, mouse_icon_rect)
+        # Put enemy button objects on screen
+        screen.blit(enemy_mouse_surface, enemy_mouse_rect)
+        screen.blit(enemy_giant_rat_surface, enemy_giant_rat_rect)
+        screen.blit(enemy_rabid_dog_surface, enemy_rabid_dog_rect)
+        screen.blit(enemy_skeleton_surface, enemy_skeleton_rect)
+        screen.blit(boss_thief_surface, boss_thief_rect)
+        screen.blit(enemy_zombie_surface, enemy_zombie_rect)
+        screen.blit(enemy_yeti_surface, enemy_yeti_rect)
+        screen.blit(enemy_vampire_surface, enemy_vampire_rect)
+        screen.blit(enemy_minotaur_surface, enemy_minotaur_rect)
+        screen.blit(boss_dragon_surface, boss_dragon_rect)
+        
     # Create equipment screen
     if equip_screen:
         pass
