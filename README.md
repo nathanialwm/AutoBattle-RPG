@@ -1,5 +1,6 @@
 # AutoBattle-RPG
 A short autobattling, incremental RPG in pygame
+If this is still in progress, test branch is likely more up to date
 
 For now all files and modules used are necessary to run this game. Once I complete all base game features I will create a venv and executable.
 
