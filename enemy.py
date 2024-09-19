@@ -18,14 +18,33 @@ class Boss(Enemy):
         self.regen = regen  # Boss Enemy HP Regeneration per turn
         self.crit = crit  # Boss Enemy chance to do 1.5x damage
 
+# Create the enemy objects
+Mouse = Enemy(dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
+              hitchance=1,evadechance=2,exp=1,drop=1)
 
-Mouse = Enemy(1,1,10,10,1,1,1,2,1,1)
-Giant_Rat = Enemy(1,1,10,10,1,1,1,2,1,1)
-Rabid_Dog = Enemy(1,1,10,10,1,1,1,2,1,1)
-Skeleton = Enemy(1,1,10,10,1,1,1,2,1,1)
-Thief = Boss(1,1,10,10,1,1,1,2,1,1,1,1)
-Zombie = Enemy(1,1,10,10,1,1,1,2,1,1)
-Yeti = Enemy(1,1,10,10,1,1,1,2,1,1)
-Vampire = Enemy(1,1,10,10,1,1,1,2,1,1)
-Minotaur = Enemy(1,1,10,10,1,1,1,2,1,1)
-Dragon = Boss(1,1,10,10,1,1,1,2,1,1,1,1)
+Giant_Rat = Enemy(dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
+                  hitchance=1,evadechance=2,exp=1,drop=1)
+
+Rabid_Dog = Enemy(dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
+                  hitchance=1,evadechance=2,exp=1,drop=1)
+
+Skeleton = Enemy(dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
+                 hitchance=1,evadechance=2,exp=1,drop=1)
+
+Thief = Boss(dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
+             hitchance=1,evadechance=2,exp=1,drop=1,regen=1,crit=1)
+
+Zombie = Enemy(dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
+               hitchance=1,evadechance=2,exp=1,drop=1)
+
+Yeti = Enemy(dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
+             hitchance=1,evadechance=2,exp=1,drop=1)
+
+Vampire = Enemy(dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
+                hitchance=1,evadechance=2,exp=1,drop=1)
+
+Minotaur = Enemy(dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
+                 hitchance=1,evadechance=2,exp=1,drop=1)
+
+Dragon = Boss(dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
+              hitchance=1,evadechance=2,exp=1,drop=1,regen=1,crit=1)
