@@ -5,6 +5,8 @@ import player
 import enemy
 import equip
 
+iterable_enemy_objects = [enemy.Mouse,enemy.Giant_Rat,enemy.Rabid_Dog,enemy.Skeleton,enemy.Thief,enemy.Zombie,
+                          enemy.Yeti,enemy.Vampire,enemy.Minotaur,enemy.Dragon]
 # pygame setup
 pygame.init()
 screen = pygame.display.set_mode((960, 680))
@@ -20,22 +22,22 @@ stat_screen = False
 
 # Set booleans for which monster is being fought
 # Create a dictionary to easily change boolean values for all enemies
-def set_fight_false():
-    return {
-        'fight_mouse': False,
-        'fight_giant_rat': False,
-        'fight_rabid_dog': False,
-        'fight_skeleton': False,
-        'fight_thief': False,
-        'fight_zombie': False,
-        'fight_yeti': False,
-        'fight_vampire': False,
-        'fight_minotaur': False,
-        'fight_dragon': False
-    }
+# def set_fight_false():
+#     return {
+#         'fight_mouse': False,
+#         'fight_giant_rat': False,
+#         'fight_rabid_dog': False,
+#         'fight_skeleton': False,
+#         'fight_thief': False,
+#         'fight_zombie': False,
+#         'fight_yeti': False,
+#         'fight_vampire': False,
+#         'fight_minotaur': False,
+#         'fight_dragon': False
+#     }
 
 
-fight_enemy_statuses = set_fight_false()
+# fight_enemy_statuses = set_fight_false()
 
 # Setup text and menu items that will always display
 # Top Menu
@@ -120,6 +122,12 @@ enemy_minotaur_rect = enemy_minotaur_surface.get_rect(topleft=(486, 577))
 boss_dragon_surface = pygame.image.load('images/Buttons/button_dragon.png').convert_alpha()
 boss_dragon_rect = boss_dragon_surface.get_rect(topleft=(486, 622))
 
+enemy_surfaces = [enemy_mouse_surface,enemy_giant_rat_surface,enemy_rabid_dog_surface,enemy_skeleton_surface,
+                  boss_thief_surface,enemy_zombie_surface,enemy_yeti_surface,enemy_vampire_surface,
+                  enemy_minotaur_surface,boss_dragon_surface]
+enemy_rects = [enemy_mouse_rect,enemy_giant_rat_rect,enemy_rabid_dog_rect,enemy_skeleton_rect,
+                  boss_thief_rect,enemy_zombie_rect,enemy_yeti_rect,enemy_vampire_rect,
+                  enemy_minotaur_rect,boss_dragon_rect]
 while running:
     # Draw Menu items that are always visible
     screen.fill('#bdbdbd')
@@ -144,12 +152,18 @@ while running:
                 stat_screen = True
 
             # Clicking between enemy types
-            if enemy_mouse_rect.collidepoint(pygame.mouse.get_pos()) & battle_screen:
-                fight_enemy_statuses = set_fight_false()
-                fight_enemy_statuses['fight_mouse'] = True
-            if enemy_giant_rat_rect.collidepoint(pygame.mouse.get_pos()) & battle_screen:
-                fight_enemy_statuses = set_fight_false()
-                fight_enemy_statuses['fight_giant_rat'] = True
+            # if enemy_mouse_rect.collidepoint(pygame.mouse.get_pos()) & battle_screen:
+            #     # fight_enemy_statuses = set_fight_false()
+            #     # fight_enemy_statuses['fight_mouse'] = True
+            # if enemy_giant_rat_rect.collidepoint(pygame.mouse.get_pos()) & battle_screen:
+            #     # fight_enemy_statuses = set_fight_false()
+            #     # fight_enemy_statuses['fight_giant_rat'] = True
+            for index, rect in enumerate(enemy_rects):
+                if rect.collidepoint(pygame.mouse.get_pos()) and battle_screen:
+                    for enemy in iterable_enemy_objects:
+                        enemy.battling = False
+                    iterable_enemy_objects[index].battling = True
+            
 
     # Hover effects for top menu
     if menu_battle_rect.collidepoint(pygame.mouse.get_pos()):
@@ -185,10 +199,13 @@ while running:
         screen.blit(enemy_minotaur_surface, enemy_minotaur_rect)
         screen.blit(boss_dragon_surface, boss_dragon_rect)
         # Determine which monster is active
-        if fight_enemy_statuses['fight_mouse']:
-            screen.blit(mouse_icon_surface, mouse_icon_rect)
-        if fight_enemy_statuses['fight_giant_rat']:
-            screen.blit(giant_rat_icon_surface, giant_rat_icon_rect)
+        # if fight_enemy_statuses['fight_mouse']:
+        #     screen.blit(mouse_icon_surface, mouse_icon_rect)
+        # if fight_enemy_statuses['fight_giant_rat']:
+        #     screen.blit(giant_rat_icon_surface, giant_rat_icon_rect)
+        for index, enemy in enumerate(iterable_enemy_objects):
+            if enemy.battling:
+                screen.blit(enemy_surfaces[index], enemy_rects[index])
 
     # Create equipment screen
     if equip_screen:
