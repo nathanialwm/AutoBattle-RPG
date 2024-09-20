@@ -12,6 +12,7 @@ menu_equip_rect = menu_equip_surface.get_rect(midtop=(480, 20))
 menu_stats_surface = game_menu_font.render('Stats', True, 'Black')
 menu_stats_rect = menu_stats_surface.get_rect(midtop=(720, 20))
 
+battle_text_surface = game_menu_font.render('',True, 'Black')
 # Create visuals and menus for battle screen
 # Enemy Portrait Icons
 mouse_icon_surface = pygame.image.load('images/Icons/icon_mouse.jpg').convert_alpha()

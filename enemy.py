@@ -2,7 +2,8 @@ import pygame.image
 
 
 class Enemy:
-    def __init__(self, dex, agi, health, temphealth, defense, attack, hitchance, evadechance, exp, drop, battling):
+    def __init__(self, name, dex, agi, health, temphealth, defense, attack, hitchance, evadechance, exp, drop, battling):
+        self.name = name # The string version of the name of the enemy
         self.dex = dex  # Dexterity - Effects Hit Chance
         self.agi = agi  # Agility - Effects Evade Chance
         self.health = health  # Enemy Health Value
@@ -17,40 +18,40 @@ class Enemy:
 
 
 class Boss(Enemy):
-    def __init__(self, dex, agi, health, temphealth, defense, attack, hitchance, evadechance,
+    def __init__(self, name, dex, agi, health, temphealth, defense, attack, hitchance, evadechance,
                  exp, drop, battling, regen, crit):
-        super().__init__(dex, agi, health, temphealth, defense, attack, hitchance, evadechance, exp, drop, battling)
+        super().__init__(name, dex, agi, health, temphealth, defense, attack, hitchance, evadechance, exp, drop, battling)
         self.regen = regen  # Boss Enemy HP Regeneration per turn
         self.crit = crit  # Boss Enemy chance to do 1.5x damage
 
 
 # Create the enemy objects
-Mouse = Enemy(dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
+Mouse = Enemy(name="Mouse",dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
               hitchance=1,evadechance=2,exp=1,drop=1,battling=False)
 
-Giant_Rat = Enemy(dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
+Giant_Rat = Enemy(name="Giant Rat",dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
                   hitchance=1,evadechance=2,exp=1,drop=1,battling=False)
 
-Rabid_Dog = Enemy(dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
+Rabid_Dog = Enemy(name="Rabid Dog",dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
                   hitchance=1,evadechance=2,exp=1,drop=1,battling=False)
 
-Skeleton = Enemy(dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
+Skeleton = Enemy(name="Skeleton",dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
                  hitchance=1,evadechance=2,exp=1,drop=1,battling=False)
 
-Thief = Boss(dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
+Thief = Boss(name="Thief",dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
              hitchance=1,evadechance=2,exp=1,drop=1,battling=False,regen=1,crit=1)
 
-Zombie = Enemy(dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
+Zombie = Enemy(name="Zombie",dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
                hitchance=1,evadechance=2,exp=1,drop=1,battling=False)
 
-Yeti = Enemy(dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
+Yeti = Enemy(name="Yeti",dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
              hitchance=1,evadechance=2,exp=1,drop=1,battling=False)
 
-Vampire = Enemy(dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
+Vampire = Enemy(name="Vampire",dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
                 hitchance=1,evadechance=2,exp=1,drop=1,battling=False)
 
-Minotaur = Enemy(dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
+Minotaur = Enemy(name="Minotaur",dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
                  hitchance=1,evadechance=2,exp=1,drop=1,battling=False)
 
-Dragon = Boss(dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
+Dragon = Boss(name="Dragon",dex=1,agi=1,health=10,temphealth=10,defense=1,attack=1,
               hitchance=1,evadechance=2,exp=1,drop=1,battling=False,regen=1,crit=1)

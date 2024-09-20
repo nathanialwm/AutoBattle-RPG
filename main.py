@@ -1,6 +1,7 @@
 import numpy as np
 import random as ran
 import pygame
+import textwrap as wrap
 import player
 import enemy
 import equip
@@ -8,6 +9,7 @@ import gui
 
 iterable_enemy_objects = [enemy.Mouse,enemy.Giant_Rat,enemy.Rabid_Dog,enemy.Skeleton,enemy.Thief,enemy.Zombie,
                           enemy.Yeti,enemy.Vampire,enemy.Minotaur,enemy.Dragon]
+active_enemy = iterable_enemy_objects[0]
 # pygame setup
 pygame.init()
 screen = pygame.display.set_mode((960, 680))
@@ -19,6 +21,13 @@ running = True
 battle_screen = True
 equip_screen = False
 stat_screen = False
+# Make mouse enemy active from the start
+enemy.Mouse.battling = True
+
+# Create Custom event and timer for automatic battling
+BATTLE_EVENT = pygame.USEREVENT + 1
+timer = pygame.time.set_timer(BATTLE_EVENT,6000)
+
 
 while running:
     # Draw Menu items that are always visible
@@ -27,6 +36,13 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        # Main Event for Battling. Triggers regardless of active screen
+        if event.type == BATTLE_EVENT:
+            text = "You attacked the " + active_enemy.name
+            wrapped_text = wrap.fill(text,280)
+            gui.battle_text_surface = gui.game_menu_font.render(wrapped_text, True, 'Black')
+        
+
         # Create all click events
         if event.type == pygame.MOUSEBUTTONUP:
             # Clicking between menus
@@ -49,6 +65,7 @@ while running:
                     for enemy in iterable_enemy_objects:
                         enemy.battling = False
                     iterable_enemy_objects[index].battling = True
+                    active_enemy = iterable_enemy_objects[index]
 
             
 
@@ -85,11 +102,16 @@ while running:
         screen.blit(gui.enemy_vampire_surface, gui.enemy_vampire_rect)
         screen.blit(gui.enemy_minotaur_surface, gui.enemy_minotaur_rect)
         screen.blit(gui.boss_dragon_surface, gui.boss_dragon_rect)
+        # Battle Text
+        screen.blit(gui.battle_text_surface, (300, 300))
 
         # Determine which monster is active
         for index, enemy in enumerate(iterable_enemy_objects):
             if enemy.battling:
                 screen.blit(gui.enemy_surfaces[index], gui.enemy_rects[index])
+        
+        
+        
 
 
     # Create equipment screen
