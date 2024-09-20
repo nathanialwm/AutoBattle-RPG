@@ -2,6 +2,7 @@ import numpy as np
 import random as ran
 import pygame
 import textwrap as wrap
+import time
 import player
 import enemy
 import equip
@@ -28,7 +29,13 @@ enemy.Mouse.battling = True
 BATTLE_EVENT = pygame.USEREVENT + 1
 timer = pygame.time.set_timer(BATTLE_EVENT,6000)
 
-
+# Loading bar logic
+total_time = 6
+interval_time = 0.5
+total_intervals = total_time/interval_time
+current_interval = 0
+BAR_EVENT = pygame.USEREVENT + 2
+bar_timer = pygame.time.set_timer(BAR_EVENT, 500)
 while running:
     # Draw Menu items that are always visible
     screen.fill('#bdbdbd')
@@ -38,10 +45,14 @@ while running:
             running = False
         # Main Event for Battling. Triggers regardless of active screen
         if event.type == BATTLE_EVENT:
+            # Battle Result Text
             text = "You attacked the " + active_enemy.name
             wrapped_text = wrap.fill(text,280)
             gui.battle_text_surface = gui.game_menu_font.render(wrapped_text, True, 'Black')
-        
+        if event.type == BAR_EVENT:
+            current_interval += 1
+            if current_interval > total_intervals:
+                current_interval = 0 
 
         # Create all click events
         if event.type == pygame.MOUSEBUTTONUP:
@@ -121,7 +132,11 @@ while running:
     # create stat screen
     if stat_screen:
         pass
-
+    
+    fill_width = (current_interval / total_intervals) * 720
+    pygame.draw.rect(screen, (255,255,255), gui.loading_bar_rect, 2)
+    filled_rect = pygame.Rect(gui.loading_bar_rect.x, gui.loading_bar_rect.y, fill_width, 20)
+    pygame.draw.rect(screen, (0,255,0), filled_rect)
     # flip() the display to put your work on screen
     pygame.display.flip()
 

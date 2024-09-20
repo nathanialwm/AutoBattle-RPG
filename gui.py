@@ -12,48 +12,50 @@ menu_equip_rect = menu_equip_surface.get_rect(midtop=(480, 20))
 menu_stats_surface = game_menu_font.render('Stats', True, 'Black')
 menu_stats_rect = menu_stats_surface.get_rect(midtop=(720, 20))
 
-battle_text_surface = game_menu_font.render('',True, 'Black')
+
 # Create visuals and menus for battle screen
+battle_text_surface = game_menu_font.render('',True, 'Black')
+loading_bar_rect = pygame.Rect(120, 90, 720, 20)
 # Enemy Portrait Icons
 mouse_icon_surface = pygame.image.load('images/Icons/icon_mouse.jpg').convert_alpha()
 mouse_icon_surface = pygame.transform.scale(mouse_icon_surface, (180, 180))
-mouse_icon_rect = mouse_icon_surface.get_rect(midtop=(240, 100))
+mouse_icon_rect = mouse_icon_surface.get_rect(midtop=(240, 120))
 
 giant_rat_icon_surface = pygame.image.load('images/Icons/icon_giant_rat.jpg').convert_alpha()
 giant_rat_icon_surface = pygame.transform.scale(giant_rat_icon_surface, (180, 180))
-giant_rat_icon_rect = giant_rat_icon_surface.get_rect(midtop=(240, 100))
+giant_rat_icon_rect = giant_rat_icon_surface.get_rect(midtop=(240, 120))
 
 rabid_dog_icon_surface = pygame.image.load('images/Icons/icon_rabid_dog.jpg').convert_alpha()
 rabid_dog_icon_surface = pygame.transform.scale(rabid_dog_icon_surface, (180, 180))
-rabid_dog_icon_rect = rabid_dog_icon_surface.get_rect(midtop=(240, 100))
+rabid_dog_icon_rect = rabid_dog_icon_surface.get_rect(midtop=(240, 120))
 
 skeleton_icon_surface = pygame.image.load('images/Icons/icon_skeleton.jpg').convert_alpha()
 skeleton_icon_surface = pygame.transform.scale(skeleton_icon_surface, (180, 180))
-skeleton_icon_rect = skeleton_icon_surface.get_rect(midtop=(240, 100))
+skeleton_icon_rect = skeleton_icon_surface.get_rect(midtop=(240, 120))
 
 thief_icon_surface = pygame.image.load('images/Icons/icon_thief.jpg').convert_alpha()
 thief_icon_surface = pygame.transform.scale(thief_icon_surface, (180, 180))
-thief_icon_rect = thief_icon_surface.get_rect(midtop=(240, 100))
+thief_icon_rect = thief_icon_surface.get_rect(midtop=(240, 120))
 
 zombie_icon_surface = pygame.image.load('images/Icons/icon_zombie.jpg').convert_alpha()
 zombie_icon_surface = pygame.transform.scale(zombie_icon_surface, (180, 180))
-zombie_icon_rect = zombie_icon_surface.get_rect(midtop=(240, 100))
+zombie_icon_rect = zombie_icon_surface.get_rect(midtop=(240, 120))
 
 yeti_icon_surface = pygame.image.load('images/Icons/icon_yeti.jpg').convert_alpha()
 yeti_icon_surface = pygame.transform.scale(yeti_icon_surface, (180, 180))
-yeti_icon_rect = yeti_icon_surface.get_rect(midtop=(240, 100))
+yeti_icon_rect = yeti_icon_surface.get_rect(midtop=(240, 120))
 
 vampire_icon_surface = pygame.image.load('images/Icons/icon_vampire.jpg').convert_alpha()
 vampire_icon_surface = pygame.transform.scale(vampire_icon_surface, (180, 180))
-vampire_icon_rect = vampire_icon_surface.get_rect(midtop=(240, 100))
+vampire_icon_rect = vampire_icon_surface.get_rect(midtop=(240, 120))
 
 minotaur_icon_surface = pygame.image.load('images/Icons/icon_minotaur.jpg').convert_alpha()
 minotaur_icon_surface = pygame.transform.scale(minotaur_icon_surface, (180, 180))
-minotaur_icon_rect = minotaur_icon_surface.get_rect(midtop=(240, 100))
+minotaur_icon_rect = minotaur_icon_surface.get_rect(midtop=(240, 120))
 
 dragon_icon_surface = pygame.image.load('images/Icons/icon_dragon.jpg').convert_alpha()
 dragon_icon_surface = pygame.transform.scale(dragon_icon_surface, (180, 180))
-dragon_icon_rect = dragon_icon_surface.get_rect(midtop=(240, 100))
+dragon_icon_rect = dragon_icon_surface.get_rect(midtop=(240, 120))
 
 # Buttons for enemy types | Button size 340x42
 enemy_mouse_surface = pygame.image.load('images/Buttons/button_mouse.png').convert_alpha()
