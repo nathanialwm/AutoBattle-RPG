@@ -1,18 +1,14 @@
 import numpy as np
-import random as ran
+import random
 import pygame
-import textwrap
-import time
 import player
 import enemy
 import equip
 import gui
 
-y_offset = 0
+# Set mouse as active enemy when game loads
+active_enemy = enemy.Enemy.all_enemies[0]
 
-iterable_enemy_objects = [enemy.Mouse,enemy.Giant_Rat,enemy.Rabid_Dog,enemy.Skeleton,enemy.Thief,enemy.Zombie,
-                          enemy.Yeti,enemy.Vampire,enemy.Minotaur,enemy.Dragon]
-active_enemy = iterable_enemy_objects[0]
 # pygame setup
 pygame.init()
 screen = pygame.display.set_mode((960, 680))
@@ -37,11 +33,11 @@ interval_time = 0.5
 total_intervals = total_time/interval_time
 current_interval = 0
 
+BAR_EVENT = pygame.USEREVENT + 2
+bar_timer = pygame.time.set_timer(BAR_EVENT, 500)
 # Battle logic
 
 
-BAR_EVENT = pygame.USEREVENT + 2
-bar_timer = pygame.time.set_timer(BAR_EVENT, 500)
 while running:
     # Draw Menu items that are always visible
     screen.fill('#bdbdbd')
@@ -87,10 +83,10 @@ while running:
             # Clicking between enemy types
             for index, rect in enumerate(gui.enemy_button_rects):
                 if rect.collidepoint(pygame.mouse.get_pos()) and battle_screen:
-                    for enemy in iterable_enemy_objects:
-                        enemy.battling = False
-                    iterable_enemy_objects[index].battling = True
-                    active_enemy = iterable_enemy_objects[index]
+                    for en in enemy.Enemy.all_enemies:
+                        en.battling = False
+                    enemy.Enemy.all_enemies[index].battling = True
+                    active_enemy = enemy.Enemy.all_enemies[index]
 
             
 
@@ -135,8 +131,8 @@ while running:
         screen.blit(gui.battle_text_surface4, (380, 290))
 
         # Determine which monster is active
-        for index, enemy in enumerate(iterable_enemy_objects):
-            if enemy.battling:
+        for index, en in enumerate(enemy.Enemy.all_enemies):
+            if en.battling:
                 screen.blit(gui.enemy_surfaces[index], gui.enemy_rects[index])
              
              

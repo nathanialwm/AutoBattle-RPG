@@ -1,6 +1,11 @@
 import player
 
+
+
 class Enemy:
+    #Create array for looping through all existing enemies
+    all_enemies = []
+    # init
     def __init__(self, name, dex, agi, health, temphealth, defense, attack, exp, drop, battling):
         self.name = name # The string version of the name of the enemy
         self.dex = dex  # Dexterity - Effects Hit Chance
@@ -12,6 +17,9 @@ class Enemy:
         self.exp_award = exp # Experience awarded to player after defeating this enemy
         self.drop_strength = drop # Base number to determine strength of items dropped by this enemy
         self.battling = battling # Boolean to determine if this enemy is active
+        
+        # appened each created enemy to all_enemies
+        Enemy.all_enemies.append(self)
 
     def enemy_hit_chance(self):
         h = min(100, max(0, 50+30*((self.dex - player.p1.agi) / player.p1.agi)))
