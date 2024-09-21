@@ -1,7 +1,8 @@
 import player
+from math import e
 
-
-
+d = 0
+a = 0
 class Enemy:
     #Create array for looping through all existing enemies
     all_enemies = []
@@ -22,14 +23,22 @@ class Enemy:
         Enemy.all_enemies.append(self)
 
     def enemy_hit_chance(self):
-        h = min(100, max(0, 50+30*((self.dex - player.p1.agi) / player.p1.agi)))
-        return h
-    
+        hc = min(100, max(0, 50+30*((self.dex - player.p1.agi) / player.p1.agi)))
+        return hc
+    # player hit_chance is defined in enemy.py to avoid circular imports and keep main.py clean
     def player_hit_chance(self):
-        h = min(100, max(0, 50+30*((player.p1.dex - self.agi) / self.agi)))
-        return h
+        hc = min(100, max(0, 50+30*((player.p1.dex - self.agi) / self.agi)))
+        return hc
         
+    # determine damage mitigation for player and enemy
+    def enemy_mitigation(self):
+        mit = (.95 * ( 1 / (1 + e**(-1.35(self.defense / player.p1.attack - 1 )))))
+        return mit
 
+    def player_mitigation(self):
+        mit = (.95 * ( 1 / (1 + e**(-1.35(player.p1.defense / self.attack - 1 )))))
+        return mit
+    
 
 class Boss(Enemy):
     def __init__(self, name, dex, agi, health, temphealth, defense, attack, exp, drop, battling, regen, crit):
@@ -68,4 +77,3 @@ Minotaur = Enemy(name="Minotaur",dex=174,agi=168,health=4000,temphealth=4000,def
 
 Dragon = Boss(name="Dragon",dex=404,agi=355,health=9999,temphealth=9999,defense=404,attack=404,
               exp=12999,drop=1.8,battling=False,regen=80,crit=33)
-

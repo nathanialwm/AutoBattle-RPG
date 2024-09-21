@@ -35,6 +35,7 @@ current_interval = 0
 
 BAR_EVENT = pygame.USEREVENT + 2
 bar_timer = pygame.time.set_timer(BAR_EVENT, 500)
+
 # Battle logic
 
 
