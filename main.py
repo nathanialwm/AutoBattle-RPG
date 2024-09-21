@@ -37,8 +37,8 @@ interval_time = 0.5
 total_intervals = total_time/interval_time
 current_interval = 0
 
-#textwrap
-wrapper = textwrap.TextWrapper(width=200) 
+# Battle logic
+
 
 BAR_EVENT = pygame.USEREVENT + 2
 bar_timer = pygame.time.set_timer(BAR_EVENT, 500)
@@ -60,6 +60,7 @@ while running:
             gui.battle_text_surface2 = gui.battle_result_font.render(battle_text2, True, 'Black')
             gui.battle_text_surface3 = gui.battle_result_font.render(battle_text3, True, 'Black')
             gui.battle_text_surface4 = gui.battle_result_font.render(battle_text4, True, 'Black')
+
 
         # Event for bar animation
         if event.type == BAR_EVENT:
