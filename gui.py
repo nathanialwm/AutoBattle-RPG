@@ -3,8 +3,9 @@ import pygame
 pygame.init()
 pygame.display.set_mode((960, 680))
 # Setup text and menu items that will always display
-# Top Menu
 game_menu_font = pygame.font.Font('fonts/Handjet-Regular.ttf', 50)
+battle_result_font = pygame.font.Font('fonts/Handjet-Regular.ttf', 20)
+# Top Menu
 menu_battle_surface = game_menu_font.render('Battle', True, 'Black')
 menu_battle_rect = menu_battle_surface.get_rect(midtop=(240, 20))
 menu_equip_surface = game_menu_font.render('Equipment', True, 'Black')
@@ -14,7 +15,10 @@ menu_stats_rect = menu_stats_surface.get_rect(midtop=(720, 20))
 
 
 # Create visuals and menus for battle screen
-battle_text_surface = game_menu_font.render('',True, 'Black')
+battle_text_surface1 = battle_result_font.render('',True, 'Black')
+battle_text_surface2 = battle_result_font.render('',True, 'Black')
+battle_text_surface3 = battle_result_font.render('',True, 'Black')
+battle_text_surface4 = battle_result_font.render('',True, 'Black')
 loading_bar_rect = pygame.Rect(120, 90, 720, 20)
 # Enemy Portrait Icons
 mouse_icon_surface = pygame.image.load('images/Icons/icon_mouse.jpg').convert_alpha()

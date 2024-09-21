@@ -1,12 +1,14 @@
 import numpy as np
 import random as ran
 import pygame
-import textwrap as wrap
+import textwrap
 import time
 import player
 import enemy
 import equip
 import gui
+
+y_offset = 0
 
 iterable_enemy_objects = [enemy.Mouse,enemy.Giant_Rat,enemy.Rabid_Dog,enemy.Skeleton,enemy.Thief,enemy.Zombie,
                           enemy.Yeti,enemy.Vampire,enemy.Minotaur,enemy.Dragon]
@@ -34,6 +36,10 @@ total_time = 6
 interval_time = 0.5
 total_intervals = total_time/interval_time
 current_interval = 0
+
+#textwrap
+wrapper = textwrap.TextWrapper(width=200) 
+
 BAR_EVENT = pygame.USEREVENT + 2
 bar_timer = pygame.time.set_timer(BAR_EVENT, 500)
 while running:
@@ -46,9 +52,16 @@ while running:
         # Main Event for Battling. Triggers regardless of active screen
         if event.type == BATTLE_EVENT:
             # Battle Result Text
-            text = "You attacked the " + active_enemy.name
-            wrapped_text = wrap.fill(text,280)
-            gui.battle_text_surface = gui.game_menu_font.render(wrapped_text, True, 'Black')
+            battle_text1 = "You defeated the " + active_enemy.name + ". You attacked the " + active_enemy.name + " " + "x" 
+            battle_text2 = " times, " + "dealing " + "x " + " damage. The " + active_enemy.name + " attacked you "
+            battle_text3 = "x" + " times, dealing " + "x" + " damage to you."
+            battle_text4 = "You gained x experience points and leveled up x times."
+            gui.battle_text_surface1 = gui.battle_result_font.render(battle_text1, True, 'Black')
+            gui.battle_text_surface2 = gui.battle_result_font.render(battle_text2, True, 'Black')
+            gui.battle_text_surface3 = gui.battle_result_font.render(battle_text3, True, 'Black')
+            gui.battle_text_surface4 = gui.battle_result_font.render(battle_text4, True, 'Black')
+
+        # Event for bar animation
         if event.type == BAR_EVENT:
             current_interval += 1
             if current_interval > total_intervals:
@@ -113,18 +126,19 @@ while running:
         screen.blit(gui.enemy_vampire_surface, gui.enemy_vampire_rect)
         screen.blit(gui.enemy_minotaur_surface, gui.enemy_minotaur_rect)
         screen.blit(gui.boss_dragon_surface, gui.boss_dragon_rect)
+
         # Battle Text
-        screen.blit(gui.battle_text_surface, (300, 300))
+        screen.blit(gui.battle_text_surface1, (380, 150))
+        screen.blit(gui.battle_text_surface2, (380, 190))
+        screen.blit(gui.battle_text_surface3, (380, 230))
+        screen.blit(gui.battle_text_surface4, (380, 290))
 
         # Determine which monster is active
         for index, enemy in enumerate(iterable_enemy_objects):
             if enemy.battling:
                 screen.blit(gui.enemy_surfaces[index], gui.enemy_rects[index])
-        
-        
-        
-
-
+             
+             
     # Create equipment screen
     if equip_screen:
         pass
@@ -133,10 +147,12 @@ while running:
     if stat_screen:
         pass
     
+    # Draw Loading Bar
     fill_width = (current_interval / total_intervals) * 720
     pygame.draw.rect(screen, (255,255,255), gui.loading_bar_rect, 2)
     filled_rect = pygame.Rect(gui.loading_bar_rect.x, gui.loading_bar_rect.y, fill_width, 20)
     pygame.draw.rect(screen, (0,255,0), filled_rect)
+
     # flip() the display to put your work on screen
     pygame.display.flip()
 
