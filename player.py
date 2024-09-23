@@ -1,7 +1,7 @@
 import equip
 
 class Player:
-  def __init__(self, vit, str, fort, dex, agi, health, temphealth, defense, attack,
+  def __init__(self, vit, str, fort, dex, agi, health, temphealth, defense, min_attack, max_attack,
                 inventorysize, statpoints, level, exp, exp_needed):
     self.vit = vit # Vitality - Effects Health Points
     self.str = str # Strength - Effects Damage
@@ -11,7 +11,8 @@ class Player:
     self.health = self.vit * 4 # Players Health = vit * 4 plus any from equips
     self.temp_health = self.health # Players health value during combat
     self.defense = self.fort * 2 # Players defense = fort * 2 plus any from equips
-    self.attack = self.str * 2 # player attack = strength *2 + any from equips
+    self.min_attack = self.str * 1.5 # player attack = strength *2 + any from equips
+    self.max_attack = self.str * 3.5
     self.inventory_size = inventorysize # The amount of empty inventory slots
     self.stat_points = statpoints # Stat points available to spend. Player gets 5 per level
     self.level = level # Players character level

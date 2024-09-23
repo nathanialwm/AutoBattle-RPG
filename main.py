@@ -37,7 +37,9 @@ BAR_EVENT = pygame.USEREVENT + 2
 bar_timer = pygame.time.set_timer(BAR_EVENT, 500)
 
 # Battle logic
-
+def battle_instance():
+    while player.p1.temp_health > 0:
+        pass
 
 while running:
     # Draw Menu items that are always visible
