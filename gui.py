@@ -4,7 +4,7 @@ pygame.init()
 pygame.display.set_mode((960, 680))
 # Setup text and menu items that will always display
 game_menu_font = pygame.font.Font('fonts/Handjet-Regular.ttf', 50)
-battle_result_font = pygame.font.Font('fonts/Handjet-Regular.ttf', 20)
+battle_result_font = pygame.font.Font('fonts/Roboto-Regular.ttf', 16)
 # Top Menu
 menu_battle_surface = game_menu_font.render('Battle', True, 'Black')
 menu_battle_rect = menu_battle_surface.get_rect(midtop=(240, 20))

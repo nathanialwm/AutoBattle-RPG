@@ -25,9 +25,10 @@ class Player:
           return this_attack
 
   def level_up(self):
-    self.level += 1
-    self.stat_points += 3
-    self.exp_needed = round((self.level *3) + self.exp_needed ** 1.005)
+      self.exp = self.exp - self.exp_needed
+      self.level += 1
+      self.stat_points += 3
+      self.exp_needed = round((self.level *3) + self.exp_needed ** 1.005)
 
   def spend_stat_points(self):
     pass

@@ -28,12 +28,11 @@ from math import e
 #     player_damage = round(player.p1.player_this_attack() * (1 - m.active_enemy.enemy_mitigation()))
 #     print(player_damage)
 
-a = 0
-for x in range(0,1000):
-    t = enemy.Mouse.enemy_hit_chance()
-    if t:
-        a += 1
-    else:
-        pass
-print(a)
-
+# a = 0
+# for x in range(0,1000):
+#     t = enemy.Mouse.enemy_hit_chance()
+#     if t:
+#         a += 1
+#     else:
+#         pass
+# print(a)
