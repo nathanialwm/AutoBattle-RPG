@@ -12,8 +12,8 @@ class Player:
     self.health = self.vit * 4 # Players Health = vit * 4 plus any from equips
     self.temp_health = self.health # Players health value during combat
     self.defense = self.fort * 2 # Players defense = fort * 2 plus any from equips
-    self.min_attack = self.str * 1.5 # player attack = strength *2 + any from equips
-    self.max_attack = self.str * 3.5
+    self.min_attack = round(self.str * 1.5) # player attack = strength *2 + any from equips
+    self.max_attack = round(self.str * 3)
     self.inventory_size = inventorysize # The amount of empty inventory slots
     self.stat_points = statpoints # Stat points available to spend. Player gets 5 per level
     self.level = level # Players character level
@@ -35,6 +35,6 @@ class Player:
   def change_equip(self):
     pass
 
-p1 = Player(vit=5, str=5, fort=5, dex=5, agi=5, health=20, temphealth=20, defense=10, attack=10,
+p1 = Player(vit=5, str=5, fort=5, dex=5, agi=5, health=20, temphealth=20, defense=5, min_attack=8, max_attack=15,
             inventorysize=10, statpoints=0, level=1, exp=0, exp_needed=5)
 

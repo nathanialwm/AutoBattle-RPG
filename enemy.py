@@ -38,17 +38,19 @@ class Enemy:
         
     # determine damage mitigation for player and enemy
     def enemy_mitigation(self):
-        mit = (.95 * ( 1 / (1 + e**(-1.35(self.defense / player.p1.player_this_attack() - 1 )))))
+        mit = round((.95 * ( 1 / (1 + e**(-1.35*(self.defense / player.p1.player_this_attack() - 1 ))))), 3)
         return mit
 
     def player_mitigation(self):
-        mit = (.95 * ( 1 / (1 + e**(-1.35(player.p1.defense / self.enemy_this_attack() - 1 )))))
+        mit = round((.95 * ( 1 / (1 + e**(-1.35*(player.p1.defense / self.enemy_this_attack() - 1 ))))), 3)
         return mit
     
 
 class Boss(Enemy):
-    def __init__(self, name, dex, agi, health, temphealth, defense, attack, exp, drop, battling, regen, crit):
-        super().__init__(name, dex, agi, health, temphealth, defense, attack, exp, drop, battling)
+    def __init__(self, name, dex, agi, health, temphealth, defense,  
+                 min_attack, max_attack, exp, drop, battling, regen, crit):
+        super().__init__(name, dex, agi, health, temphealth, defense, 
+                         min_attack, max_attack, exp, drop, battling)
         self.regen = regen  # Boss Enemy HP Regeneration per turn
         self.crit = crit  # Boss Enemy chance to do 1.5x damage
 
