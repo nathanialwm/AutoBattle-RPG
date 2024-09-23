@@ -25,16 +25,27 @@ class Enemy:
         Enemy.all_enemies.append(self)
 
     def enemy_this_attack(self):
-        this_attack = random.randint(self.min_attack - self.max_attack)
+        this_attack = random.randint(self.min_attack, self.max_attack)
         return this_attack
     
     def enemy_hit_chance(self):
-        hc = min(100, max(0, 50+30*((self.dex - player.p1.agi) / player.p1.agi)))
-        return hc
+        hc = round(min(100, max(0, 50+30*((self.dex - player.p1.agi) / player.p1.agi))))
+        hit_rand = random.randint(0, 100)
+        if hit_rand > hc:
+            did_hit = False
+        else: 
+            did_hit = True
+        return did_hit
+    
     # player hit_chance is defined in enemy.py to avoid circular imports and keep main.py clean
     def player_hit_chance(self):
-        hc = min(100, max(0, 50+30*((player.p1.dex - self.agi) / self.agi)))
-        return hc
+        hc = round(min(100, max(0, 50+30*((self.dex - player.p1.agi) / player.p1.agi))))
+        hit_rand = random.randint(0, 100)
+        if hit_rand > hc:
+            did_hit = False
+        else: 
+            did_hit = True
+        return did_hit
         
     # determine damage mitigation for player and enemy
     def enemy_mitigation(self):

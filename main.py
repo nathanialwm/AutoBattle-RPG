@@ -9,6 +9,26 @@ import gui
 # Set mouse as active enemy when game loads
 active_enemy = enemy.Enemy.all_enemies[0]
 
+# define variables to tracks hits and misses
+player_misses = 0
+player_hits = 0
+player_total_attacks = 0
+
+enemy_misses = 0
+enemy_hits = 0
+enemy_total_attacks = 0
+# Set variables to track total damage dealt
+player_total_damage = 0
+enemy_total_damage = 0
+# Setup special boss stat trackers
+boss_crits = 0
+boss_regen = 0
+
+# track winning condition
+player_win = 0
+exp_gained = 0
+level_gained = 0
+
 # pygame setup
 pygame.init()
 screen = pygame.display.set_mode((960, 680))
@@ -31,15 +51,80 @@ timer = pygame.time.set_timer(BATTLE_EVENT,6000)
 total_time = 6
 interval_time = 0.5
 total_intervals = total_time/interval_time
-current_interval = 0
+current_interval = 1
 
 BAR_EVENT = pygame.USEREVENT + 2
 bar_timer = pygame.time.set_timer(BAR_EVENT, 500)
 
 # Battle logic
 def battle_instance():
-    while player.p1.temp_health > 0:
-        pass
+    # define variables to tracks hits and misses
+    player_misses = 0
+    player_hits = 0
+    player_total_attacks = player_hits + player_misses
+
+    enemy_misses = 0
+    enemy_hits = 0
+    enemy_total_attacks = enemy_hits + enemy_misses
+    # Set variables to track total damage dealt
+    player_total_damage = 0
+    enemy_total_damage = 0
+    # Setup special boss stat trackers
+    boss_crits = 0
+    boss_regen = 0
+
+    # track winning condition
+    exp_gained = 0
+    level_gained = 0
+
+    while player.p1.temp_health > 0 and active_enemy.temp_health > 0:
+        # If the player hits
+        if active_enemy.player_hit_chance():
+            player_damage = round(player.p1.player_this_attack() * (1 - active_enemy.enemy_mitigation()))
+            active_enemy.temp_health = active_enemy.temp_health - player_damage
+            player_hits += 1
+            player_total_damage += player_damage
+        else:
+            player_misses += 1
+        
+        if active_enemy.enemy_hit_chance():
+            enemy_damage = round(active_enemy.enemy_this_attack() * (1 - active_enemy.player_mitigation()))
+            player.p1.temp_health = player.p1.temp_health - enemy_damage
+            enemy_hits += 1
+            enemy_total_damage += enemy_damage
+        else:
+            enemy_misses += 1
+
+        # if player wins
+        if active_enemy.temp_health <= 0:
+            exp_gained = active_enemy.exp_award
+            player.p1.exp += exp_gained
+            if player.p1.exp >= player.p1.exp_needed:
+                player.p1.level_up
+                level_gained += 1
+            battle_text1 = "You defeated the " + active_enemy.name + ". You attacked the " + active_enemy.name + " " + str(player_hits) 
+            battle_text2 = " times, missing " + str(player_misses) + " times, dealing " + str(player_total_damage) + " damage. The " + active_enemy.name 
+            battle_text3 = " attacked you " + str(enemy_hits) + " times, mssing " + str(enemy_misses) + " dealing " + str(enemy_total_damage) + " damage to you."
+            battle_text4 = "You gained " + str(exp_gained) + " experience points and leveled up " + str(level_gained) + " times."
+            gui.battle_text_surface1 = gui.battle_result_font.render(battle_text1, True, 'Black')
+            gui.battle_text_surface2 = gui.battle_result_font.render(battle_text2, True, 'Black')
+            gui.battle_text_surface3 = gui.battle_result_font.render(battle_text3, True, 'Black')
+            gui.battle_text_surface4 = gui.battle_result_font.render(battle_text4, True, 'Black')
+
+        # if player loses
+        if player.p1.temp_health <= 0:
+            battle_text1 = "You defeated the " + active_enemy.name + ". You attacked the " + active_enemy.name + " " + str(player_hits) 
+            battle_text2 = " times, missing " + str(player_misses) + " times, dealing " + str(player_total_damage) + " damage. The " + active_enemy.name 
+            battle_text3 = " attacked you " + str(enemy_hits) + " times, mssing " + str(enemy_misses) + " dealing " + str(enemy_total_damage) + " damage to you."
+            battle_text4 = "You gained " + str(exp_gained) + " experience points and leveled up " + str(level_gained) + " times."
+            gui.battle_text_surface1 = gui.battle_result_font.render(battle_text1, True, 'Black')
+            gui.battle_text_surface2 = gui.battle_result_font.render(battle_text2, True, 'Black')
+            gui.battle_text_surface3 = gui.battle_result_font.render(battle_text3, True, 'Black')
+            gui.battle_text_surface4 = gui.battle_result_font.render(battle_text4, True, 'Black')
+           # print(str(player_damage) + " " + str(active_enemy.temp_health))
+    # reset player and enemy temp health back to full health value
+    player.p1.temp_health = player.p1.health
+    active_enemy.temp_health = active_enemy.health
 
 while running:
     # Draw Menu items that are always visible
@@ -50,22 +135,15 @@ while running:
             running = False
         # Main Event for Battling. Triggers regardless of active screen
         if event.type == BATTLE_EVENT:
-            # Battle Result Text
-            battle_text1 = "You defeated the " + active_enemy.name + ". You attacked the " + active_enemy.name + " " + "x" 
-            battle_text2 = " times, " + "dealing " + "x " + " damage. The " + active_enemy.name + " attacked you "
-            battle_text3 = "x" + " times, dealing " + "x" + " damage to you."
-            battle_text4 = "You gained x experience points and leveled up x times."
-            gui.battle_text_surface1 = gui.battle_result_font.render(battle_text1, True, 'Black')
-            gui.battle_text_surface2 = gui.battle_result_font.render(battle_text2, True, 'Black')
-            gui.battle_text_surface3 = gui.battle_result_font.render(battle_text3, True, 'Black')
-            gui.battle_text_surface4 = gui.battle_result_font.render(battle_text4, True, 'Black')
+            # Main battle loop
+            battle_instance()
 
 
         # Event for bar animation
         if event.type == BAR_EVENT:
             current_interval += 1
             if current_interval > total_intervals:
-                current_interval = 0 
+                current_interval = 1
 
         # Create all click events
         if event.type == pygame.MOUSEBUTTONUP:

@@ -21,7 +21,7 @@ class Player:
     self.exp_needed = exp_needed # Expereince required to level
 
   def player_this_attack(self):
-          this_attack = random.randint(self.min_attack - self.max_attack)
+          this_attack = random.randint(self.min_attack, self.max_attack)
           return this_attack
 
   def level_up(self):
