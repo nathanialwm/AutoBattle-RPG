@@ -1,4 +1,5 @@
 import equip
+import random
 
 class Player:
   def __init__(self, vit, str, fort, dex, agi, health, temphealth, defense, min_attack, max_attack,
@@ -18,6 +19,10 @@ class Player:
     self.level = level # Players character level
     self.exp = exp # Experience the player has earned
     self.exp_needed = exp_needed # Expereince required to level
+
+  def player_this_attack(self):
+          this_attack = random.randint(self.min_attack - self.max_attack)
+          return this_attack
 
   def level_up(self):
     self.level += 1
