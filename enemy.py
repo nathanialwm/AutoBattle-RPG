@@ -2,8 +2,6 @@ import player
 from math import e
 import random
 
-d = 0
-a = 0
 class Enemy:
     #Create array for looping through all existing enemies
     all_enemies = []
@@ -68,7 +66,7 @@ class Boss(Enemy):
 
 # Create the enemy objects
 Mouse = Enemy(name="Mouse",dex=4,agi=4,health=10,temphealth=10,defense=5,min_attack=3, max_attack=6,
-              exp=500,drop=1,battling=False)
+              exp=5,drop=1,battling=False)
 
 Giant_Rat = Enemy(name="Giant Rat",dex=15,agi=13,health=45,temphealth=45,defense=12,min_attack=13, max_attack=24,
                   exp=23,drop=1.1,battling=False)

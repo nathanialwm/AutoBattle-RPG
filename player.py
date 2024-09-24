@@ -3,7 +3,7 @@ import random
 
 class Player:
   def __init__(self, vit, str, fort, dex, agi, health, temphealth, defense, min_attack, max_attack,
-                inventorysize, statpoints, level, exp, exp_needed):
+                inventorysize, num_items, statpoints, level, exp, exp_needed):
     self.vit = vit # Vitality - Effects Health Points
     self.str = str # Strength - Effects Damage
     self.fort = fort # Fortitude - Effects Defense
@@ -14,7 +14,8 @@ class Player:
     self.defense = self.fort * 2 # Players defense = fort * 2 plus any from equips
     self.min_attack = round(self.str * 1.5) # player attack = strength *2 + any from equips
     self.max_attack = round(self.str * 3)
-    self.inventory_size = inventorysize # The amount of empty inventory slots
+    self.inventory_size = inventorysize # The amount of inventory player can have
+    self.num_items = num_items # the amount of items the player currently has
     self.stat_points = statpoints # Stat points available to spend. Player gets 5 per level
     self.level = level # Players character level
     self.exp = exp # Experience the player has earned
@@ -37,5 +38,5 @@ class Player:
     pass
 
 p1 = Player(vit=5, str=5, fort=5, dex=5, agi=5, health=20, temphealth=20, defense=5, min_attack=8, max_attack=15,
-            inventorysize=10, statpoints=0, level=1, exp=0, exp_needed=5)
+            inventorysize=10, num_items=0, statpoints=0, level=1, exp=0, exp_needed=5)
 

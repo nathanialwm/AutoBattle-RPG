@@ -89,8 +89,8 @@ def battle_instance():
 
 
             battle_text1 = "You defeated the " + active_enemy.name + ". You attacked the " + active_enemy.name + " " + str(player_total_attacks) 
-            battle_text2 = " times, hitting " + str(player_hits) + " times, dealing " + str(player_total_damage) + " damage. The " + active_enemy.name 
-            battle_text3 = " attacked you " + str(enemy_total_attacks) + " times, hitting " + str(enemy_hits) + " dealing " + str(enemy_total_damage) + " damage to you."
+            battle_text2 = "times, hitting " + str(player_hits) + " times, dealing " + str(player_total_damage) + " damage. The " + active_enemy.name 
+            battle_text3 = "attacked you " + str(enemy_total_attacks) + " times, hitting " + str(enemy_hits) + " dealing " + str(enemy_total_damage) + " damage to you."
             battle_text4 = "You gained " + str(exp_gained) + " experience points and leveled up " + str(level_gained) + " times."
             gui.battle_text_surface1 = gui.battle_result_font.render(battle_text1, True, 'Black')
             gui.battle_text_surface2 = gui.battle_result_font.render(battle_text2, True, 'Black')
@@ -111,8 +111,6 @@ def battle_instance():
             gui.battle_text_surface3 = gui.battle_result_font.render(battle_text3, True, 'Black')
             gui.battle_text_surface4 = gui.battle_result_font.render(battle_text4, True, 'Black')
             break
-           # print(str(player_damage) + " " + str(active_enemy.temp_health))
-        # reset player and enemy temp health back to full health value
         
 
 while running:
@@ -125,10 +123,16 @@ while running:
         # Main Event for Battling. Triggers regardless of active screen
         if event.type == BATTLE_EVENT:
             # Main battle loop
+            # Reset temp health if needed
             player.p1.temp_health = player.p1.health
             active_enemy.temp_health = active_enemy.health
+            # Call main loop
             battle_instance()
-
+            # put top of screen stats on screen
+            gui.stat_level_surface = gui.top_stat_font.render('Level: ' + str(player.p1.level), True, 'Black')
+            gui.stat_exp_surface = gui.top_stat_font.render('Exp to Level: ' + str(player.p1.exp_needed - player.p1.exp), True, 'Black')
+            gui.stat_stats_surface = gui.top_stat_font.render('Stat Points: ' + str(player.p1.stat_points), True, 'Black')
+            gui.stat_inventory_surface = gui.top_stat_font.render('Inventory Free: ' + str(player.p1.inventory_size - player.p1.num_items), True, 'Black')
 
         # Event for bar animation
         if event.type == BAR_EVENT:
@@ -176,6 +180,11 @@ while running:
     else:
         gui.menu_stats_surface = gui.game_menu_font.render('Stats', True, 'Black')
 
+    # put top stats on screen
+    screen.blit(gui.stat_level_surface, gui.stat_level_rect)
+    screen.blit(gui.stat_exp_surface, gui.stat_exp_rect)
+    screen.blit(gui.stat_stats_surface, gui.stat_stats_rect)
+    screen.blit(gui.stat_inventory_surface, gui.stat_inventory_rect)
     # Put menu items on screen
     screen.blit(gui.menu_battle_surface, gui.menu_battle_rect)
     screen.blit(gui.menu_equip_surface, gui.menu_equip_rect)
@@ -197,10 +206,10 @@ while running:
         screen.blit(gui.boss_dragon_surface, gui.boss_dragon_rect)
 
         # Battle Text
-        screen.blit(gui.battle_text_surface1, (380, 150))
-        screen.blit(gui.battle_text_surface2, (380, 190))
-        screen.blit(gui.battle_text_surface3, (380, 230))
-        screen.blit(gui.battle_text_surface4, (380, 290))
+        screen.blit(gui.battle_text_surface1, (370, 150))
+        screen.blit(gui.battle_text_surface2, (370, 190))
+        screen.blit(gui.battle_text_surface3, (370, 230))
+        screen.blit(gui.battle_text_surface4, (370, 290))
 
         # Determine which monster is active
         for index, en in enumerate(enemy.Enemy.all_enemies):
