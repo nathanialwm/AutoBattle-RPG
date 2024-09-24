@@ -1,9 +1,13 @@
 import numpy as np
-import random as ran
+import random
 import pygame
 import player
 import enemy
 import equip
+import gui
+
+# Set mouse as active enemy when game loads
+active_enemy = enemy.Enemy.all_enemies[0]
 
 # pygame setup
 pygame.init()
@@ -16,88 +20,100 @@ running = True
 battle_screen = True
 equip_screen = False
 stat_screen = False
+# Make mouse enemy active from the start
+enemy.Mouse.battling = True
 
-# Setup text and menu items that will always display
-# Top Menu
-game_menu_font = pygame.font.Font('fonts/Handjet-Regular.ttf', 50)
-menu_battle_surface = game_menu_font.render('Battle', True, 'Black')
-menu_battle_rect = menu_battle_surface.get_rect(midtop = (240, 20))
-menu_equip_surface = game_menu_font.render('Equipment', True, 'Black')
-menu_equip_rect = menu_equip_surface.get_rect(midtop = (480, 20))
-menu_stats_surface = game_menu_font.render('Stats', True, 'Black')
-menu_stats_rect = menu_stats_surface.get_rect(midtop = (720, 20))
+# Create Custom event and timer for automatic battling
+BATTLE_EVENT = pygame.USEREVENT + 1
+timer = pygame.time.set_timer(BATTLE_EVENT,6000)
 
-# Create visuals and menus for battle screen
-# Enemy Portrait Icons
-mouse_icon_surface = pygame.image.load('images/Icons/icon_mouse.jpg').convert_alpha()
-mouse_icon_surface = pygame.transform.scale(mouse_icon_surface, (180, 180))
-mouse_icon_rect = mouse_icon_surface.get_rect(midtop = (240, 100))
+# Loading bar logic
+total_time = 6
+interval_time = 0.5
+total_intervals = total_time/interval_time
+current_interval = 1
 
-giant_rat_icon_surface = pygame.image.load('images/Icons/icon_giant_rat.jpg').convert_alpha()
-giant_rat_icon_surface = pygame.transform.scale(giant_rat_icon_surface, (180, 180))
-giant_rat_icon_rect = giant_rat_icon_surface.get_rect(midtop = (240, 100))
+BAR_EVENT = pygame.USEREVENT + 2
+bar_timer = pygame.time.set_timer(BAR_EVENT, 500)
 
-rabid_dog_icon_surface = pygame.image.load('images/Icons/icon_rabid_dog.jpg').convert_alpha()
-rabid_dog_icon_surface = pygame.transform.scale(rabid_dog_icon_surface, (180, 180))
-rabid_dog_icon_rect = rabid_dog_icon_surface.get_rect(midtop = (240, 100))
+# Battle logic
+def battle_instance():
+    # define variables to tracks hits and misses
+    player_misses = 0
+    player_hits = 0
+    player_total_attacks = player_hits + player_misses
 
-skeleton_icon_surface = pygame.image.load('images/Icons/icon_skeleton.jpg').convert_alpha()
-skeleton_icon_surface = pygame.transform.scale(skeleton_icon_surface, (180, 180))
-skeleton_icon_rect = skeleton_icon_surface.get_rect(midtop = (240, 100))
+    enemy_misses = 0
+    enemy_hits = 0
+    enemy_total_attacks = enemy_hits + enemy_misses
+    # Set variables to track total damage dealt
+    player_total_damage = 0
+    enemy_total_damage = 0
+    # Setup special boss stat trackers
+    boss_crits = 0
+    boss_regen = 0
 
-thief_icon_surface = pygame.image.load('images/Icons/icon_thief.jpg').convert_alpha()
-thief_icon_surface = pygame.transform.scale(thief_icon_surface, (180, 180))
-thief_icon_rect = thief_icon_surface.get_rect(midtop = (240, 100))
+    # track winning condition
+    exp_gained = 0
+    level_gained = 0
 
-zombie_icon_surface = pygame.image.load('images/Icons/icon_zombie.jpg').convert_alpha()
-zombie_icon_surface = pygame.transform.scale(zombie_icon_surface, (180, 180))
-zombie_icon_rect = zombie_icon_surface.get_rect(midtop = (240, 100))
+    while player.p1.temp_health > 0 and active_enemy.temp_health > 0:
+        
+        # If the player hits
+        if active_enemy.player_hit_chance():
+            player_damage = round(player.p1.player_this_attack() * (1 - active_enemy.enemy_mitigation()))
+            active_enemy.temp_health = active_enemy.temp_health - player_damage
+            player_hits += 1
+            player_total_damage += player_damage
+        else:
+            player_misses += 1
+        
+        if active_enemy.enemy_hit_chance():
+            enemy_damage = round(active_enemy.enemy_this_attack() * (1 - active_enemy.player_mitigation()))
+            player.p1.temp_health = player.p1.temp_health - enemy_damage
+            enemy_hits += 1
+            enemy_total_damage += enemy_damage
+        else:
+            enemy_misses += 1
 
-yeti_icon_surface = pygame.image.load('images/Icons/icon_yeti.jpg').convert_alpha()
-yeti_icon_surface = pygame.transform.scale(yeti_icon_surface, (180, 180))
-yeti_icon_rect = yeti_icon_surface.get_rect(midtop = (240, 100))
+        # if player wins
+        if active_enemy.temp_health <= 0:
+            player_total_attacks = player_hits + player_misses
+            enemy_total_attacks = enemy_hits + enemy_misses
+            exp_gained = active_enemy.exp_award
+            player.p1.exp += exp_gained
+            # if player exp causes a level up
+            while player.p1.exp >= player.p1.exp_needed:
+                player.p1.level_up()
+                level_gained += 1
 
-vampire_icon_surface = pygame.image.load('images/Icons/icon_vampire.jpg').convert_alpha()
-vampire_icon_surface = pygame.transform.scale(vampire_icon_surface, (180, 180))
-vampire_icon_rect = vampire_icon_surface.get_rect(midtop = (240, 100))
 
-minotaur_icon_surface = pygame.image.load('images/Icons/icon_minotaur.jpg').convert_alpha()
-minotaur_icon_surface = pygame.transform.scale(minotaur_icon_surface, (180, 180))
-minotaur_icon_rect = minotaur_icon_surface.get_rect(midtop = (240, 100))
+            battle_text1 = "You defeated the " + active_enemy.name + ". You attacked the " + active_enemy.name + " " + str(player_total_attacks) 
+            battle_text2 = " times, hitting " + str(player_hits) + " times, dealing " + str(player_total_damage) + " damage. The " + active_enemy.name 
+            battle_text3 = " attacked you " + str(enemy_total_attacks) + " times, hitting " + str(enemy_hits) + " dealing " + str(enemy_total_damage) + " damage to you."
+            battle_text4 = "You gained " + str(exp_gained) + " experience points and leveled up " + str(level_gained) + " times."
+            gui.battle_text_surface1 = gui.battle_result_font.render(battle_text1, True, 'Black')
+            gui.battle_text_surface2 = gui.battle_result_font.render(battle_text2, True, 'Black')
+            gui.battle_text_surface3 = gui.battle_result_font.render(battle_text3, True, 'Black')
+            gui.battle_text_surface4 = gui.battle_result_font.render(battle_text4, True, 'Black')
+            break
 
-dragon_icon_surface = pygame.image.load('images/Icons/icon_dragon.jpg').convert_alpha()
-dragon_icon_surface = pygame.transform.scale(dragon_icon_surface, (180, 180))
-dragon_icon_rect = dragon_icon_surface.get_rect(midtop = (240, 100))
-# Buttons for enemy types | Button size 340x42
-enemy_mouse_surface = pygame.image.load('images/Buttons/button_mouse.png').convert_alpha()
-enemy_mouse_rect = enemy_mouse_surface.get_rect(topleft = (134, 442))
-
-enemy_giant_rat_surface = pygame.image.load('images/Buttons/button_giant-rat.png').convert_alpha()
-enemy_giant_rat_rect = enemy_giant_rat_surface.get_rect(topleft = (134, 487))
-
-enemy_rabid_dog_surface = pygame.image.load('images/Buttons/button_rabid-dog.png').convert_alpha()
-enemy_rabid_dog_rect = enemy_rabid_dog_surface.get_rect(topleft = (134, 532))
-
-enemy_skeleton_surface = pygame.image.load('images/Buttons/button_skeleton.png').convert_alpha()
-enemy_skeleton_rect = enemy_skeleton_surface.get_rect(topleft = (134, 577))
-
-boss_thief_surface = pygame.image.load('images/Buttons/button_thief.png').convert_alpha()
-boss_thief_rect = boss_thief_surface.get_rect(topleft = (134, 622))
-
-enemy_zombie_surface = pygame.image.load('images/Buttons/button_zombie.png').convert_alpha()
-enemy_zombie_rect = enemy_zombie_surface.get_rect(topleft = (486, 442))
-
-enemy_yeti_surface = pygame.image.load('images/Buttons/button_yeti.png').convert_alpha()
-enemy_yeti_rect = enemy_yeti_surface.get_rect(topleft = (486, 487))
-
-enemy_vampire_surface = pygame.image.load('images/Buttons/button_vampire.png').convert_alpha()
-enemy_vampire_rect = enemy_vampire_surface.get_rect(topleft = (486, 532))
-
-enemy_minotaur_surface = pygame.image.load('images/Buttons/button_minotaur.png').convert_alpha()
-enemy_minotaur_rect = enemy_minotaur_surface.get_rect(topleft = (486, 577))
-
-boss_dragon_surface = pygame.image.load('images/Buttons/button_dragon.png').convert_alpha()
-boss_dragon_rect = boss_dragon_surface.get_rect(topleft = (486, 622))
+        # if player loses
+        if player.p1.temp_health <= 0:
+            player_total_attacks = player_hits + player_misses
+            enemy_total_attacks = enemy_hits + enemy_misses
+            battle_text1 = "You died to the " + active_enemy.name + ". You attacked the " + active_enemy.name + " " + str(player_total_attacks) 
+            battle_text2 = " times, hitting " + str(player_hits) + " times, dealing " + str(player_total_damage) + " damage. The " + active_enemy.name 
+            battle_text3 = " attacked you " + str(enemy_total_attacks) + " times, hitting " + str(enemy_hits) + " dealing " + str(enemy_total_damage) + " damage to you."
+            battle_text4 = "You gained 0 experience points and leveled up 0 times."
+            gui.battle_text_surface1 = gui.battle_result_font.render(battle_text1, True, 'Black')
+            gui.battle_text_surface2 = gui.battle_result_font.render(battle_text2, True, 'Black')
+            gui.battle_text_surface3 = gui.battle_result_font.render(battle_text3, True, 'Black')
+            gui.battle_text_surface4 = gui.battle_result_font.render(battle_text4, True, 'Black')
+            break
+           # print(str(player_damage) + " " + str(active_enemy.temp_health))
+        # reset player and enemy temp health back to full health value
+        
 
 while running:
     # Draw Menu items that are always visible
@@ -106,56 +122,92 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        # Main Event for Battling. Triggers regardless of active screen
+        if event.type == BATTLE_EVENT:
+            # Main battle loop
+            player.p1.temp_health = player.p1.health
+            active_enemy.temp_health = active_enemy.health
+            battle_instance()
+
+
+        # Event for bar animation
+        if event.type == BAR_EVENT:
+            current_interval += 1
+            if current_interval > total_intervals:
+                current_interval = 1
+
         # Create all click events
         if event.type == pygame.MOUSEBUTTONUP:
             # Clicking between menus
-            if menu_battle_rect.collidepoint(pygame.mouse.get_pos()):
+            if gui.menu_battle_rect.collidepoint(pygame.mouse.get_pos()):
                 battle_screen = True
                 equip_screen = False
                 stat_screen = False
-            if menu_equip_rect.collidepoint(pygame.mouse.get_pos()):
+            if gui.menu_equip_rect.collidepoint(pygame.mouse.get_pos()):
                 battle_screen = False
                 equip_screen = True
                 stat_screen = False
-            if menu_stats_rect.collidepoint(pygame.mouse.get_pos()):
+            if gui.menu_stats_rect.collidepoint(pygame.mouse.get_pos()):
                 battle_screen = False
                 equip_screen = False
                 stat_screen = True
+
+            # Clicking between enemy types
+            for index, rect in enumerate(gui.enemy_button_rects):
+                if rect.collidepoint(pygame.mouse.get_pos()) and battle_screen:
+                    for en in enemy.Enemy.all_enemies:
+                        en.battling = False
+                    enemy.Enemy.all_enemies[index].battling = True
+                    active_enemy = enemy.Enemy.all_enemies[index]
+
+            
+
     # Hover effects for top menu
-    if menu_battle_rect.collidepoint(pygame.mouse.get_pos()):
-        menu_battle_surface = game_menu_font.render('Battle', True, 'Blue')
+    if gui.menu_battle_rect.collidepoint(pygame.mouse.get_pos()):
+        gui.menu_battle_surface = gui.game_menu_font.render('Battle', True, 'Blue')
     else:
-        menu_battle_surface = game_menu_font.render('Battle', True, 'Black')
-    if menu_equip_rect.collidepoint(pygame.mouse.get_pos()):
-        menu_equip_surface = game_menu_font.render('Equipment', True, 'Blue')
+        gui.menu_battle_surface = gui.game_menu_font.render('Battle', True, 'Black')
+    if gui.menu_equip_rect.collidepoint(pygame.mouse.get_pos()):
+        gui.menu_equip_surface = gui.game_menu_font.render('Equipment', True, 'Blue')
     else:
-        menu_equip_surface = game_menu_font.render('Equipment', True, 'Black')
-    if menu_stats_rect.collidepoint(pygame.mouse.get_pos()):
-        menu_stats_surface = game_menu_font.render('Stats', True, 'Blue')
+        gui.menu_equip_surface = gui.game_menu_font.render('Equipment', True, 'Black')
+    if gui.menu_stats_rect.collidepoint(pygame.mouse.get_pos()):
+        gui.menu_stats_surface = gui.game_menu_font.render('Stats', True, 'Blue')
     else:
-        menu_stats_surface = game_menu_font.render('Stats', True, 'Black')
+        gui.menu_stats_surface = gui.game_menu_font.render('Stats', True, 'Black')
 
     # Put menu items on screen
-    screen.blit(menu_battle_surface, menu_battle_rect)
-    screen.blit(menu_equip_surface, menu_equip_rect)
-    screen.blit(menu_stats_surface, menu_stats_rect)
+    screen.blit(gui.menu_battle_surface, gui.menu_battle_rect)
+    screen.blit(gui.menu_equip_surface, gui.menu_equip_rect)
+    screen.blit(gui.menu_stats_surface, gui.menu_stats_rect)
 
     # Create screen elements for each of the three 'pages'
     # Create battle screen
     if battle_screen:
-        screen.blit(mouse_icon_surface, mouse_icon_rect)
         # Put enemy button objects on screen
-        screen.blit(enemy_mouse_surface, enemy_mouse_rect)
-        screen.blit(enemy_giant_rat_surface, enemy_giant_rat_rect)
-        screen.blit(enemy_rabid_dog_surface, enemy_rabid_dog_rect)
-        screen.blit(enemy_skeleton_surface, enemy_skeleton_rect)
-        screen.blit(boss_thief_surface, boss_thief_rect)
-        screen.blit(enemy_zombie_surface, enemy_zombie_rect)
-        screen.blit(enemy_yeti_surface, enemy_yeti_rect)
-        screen.blit(enemy_vampire_surface, enemy_vampire_rect)
-        screen.blit(enemy_minotaur_surface, enemy_minotaur_rect)
-        screen.blit(boss_dragon_surface, boss_dragon_rect)
-        
+        screen.blit(gui.enemy_mouse_surface, gui.enemy_mouse_rect)
+        screen.blit(gui.enemy_giant_rat_surface, gui.enemy_giant_rat_rect)
+        screen.blit(gui.enemy_rabid_dog_surface, gui.enemy_rabid_dog_rect)
+        screen.blit(gui.enemy_skeleton_surface, gui.enemy_skeleton_rect)
+        screen.blit(gui.boss_thief_surface, gui.boss_thief_rect)
+        screen.blit(gui.enemy_zombie_surface, gui.enemy_zombie_rect)
+        screen.blit(gui.enemy_yeti_surface, gui.enemy_yeti_rect)
+        screen.blit(gui.enemy_vampire_surface, gui.enemy_vampire_rect)
+        screen.blit(gui.enemy_minotaur_surface, gui.enemy_minotaur_rect)
+        screen.blit(gui.boss_dragon_surface, gui.boss_dragon_rect)
+
+        # Battle Text
+        screen.blit(gui.battle_text_surface1, (380, 150))
+        screen.blit(gui.battle_text_surface2, (380, 190))
+        screen.blit(gui.battle_text_surface3, (380, 230))
+        screen.blit(gui.battle_text_surface4, (380, 290))
+
+        # Determine which monster is active
+        for index, en in enumerate(enemy.Enemy.all_enemies):
+            if en.battling:
+                screen.blit(gui.enemy_surfaces[index], gui.enemy_rects[index])
+             
+             
     # Create equipment screen
     if equip_screen:
         pass
@@ -163,6 +215,12 @@ while running:
     # create stat screen
     if stat_screen:
         pass
+    
+    # Draw Loading Bar
+    fill_width = (current_interval / total_intervals) * 720
+    pygame.draw.rect(screen, (255,255,255), gui.loading_bar_rect, 2)
+    filled_rect = pygame.Rect(gui.loading_bar_rect.x, gui.loading_bar_rect.y, fill_width, 20)
+    pygame.draw.rect(screen, (0,255,0), filled_rect)
 
     # flip() the display to put your work on screen
     pygame.display.flip()
