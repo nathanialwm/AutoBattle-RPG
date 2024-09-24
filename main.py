@@ -223,7 +223,12 @@ while running:
 
     # create stat screen
     if stat_screen:
-        pass
+        screen.blit(gui.available_stats_surface, gui.available_stats_rect)
+        screen.blit(gui.plus_vit_surface, gui.plus_vit_rect)
+        screen.blit(gui.plus_str_surface, gui.plus_str_rect)
+        screen.blit(gui.plus_fort_surface, gui.plus_fort_rect)
+        screen.blit(gui.plus_dex_surface, gui.plus_dex_rect)
+        screen.blit(gui.plus_agi_surface, gui.plus_agi_rect)
     
     # Draw Loading Bar
     fill_width = (current_interval / total_intervals) * 720

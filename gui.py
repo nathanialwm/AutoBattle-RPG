@@ -104,6 +104,7 @@ enemy_minotaur_rect = enemy_minotaur_surface.get_rect(topleft=(486, 577))
 boss_dragon_surface = pygame.image.load('images/Buttons/button_dragon.png').convert_alpha()
 boss_dragon_rect = boss_dragon_surface.get_rect(topleft=(486, 622))
 
+# lists to allow looping through and indexing gui variables
 enemy_surfaces = [mouse_icon_surface,giant_rat_icon_surface,rabid_dog_icon_surface,skeleton_icon_surface,
                   thief_icon_surface,zombie_icon_surface,yeti_icon_surface,vampire_icon_surface,
                   minotaur_icon_surface,dragon_icon_surface]
@@ -113,3 +114,27 @@ enemy_rects = [mouse_icon_rect,giant_rat_icon_rect,rabid_dog_icon_rect,skeleton_
 enemy_button_rects = [enemy_mouse_rect, enemy_giant_rat_rect, enemy_rabid_dog_rect, enemy_skeleton_rect,
                       boss_thief_rect, enemy_zombie_rect, enemy_yeti_rect, enemy_vampire_rect, enemy_minotaur_rect,
                       boss_dragon_rect]
+
+# Stats screen
+available_stats_surface = game_menu_font.render('Available Points:', True, 'Black')
+available_stats_rect = available_stats_surface.get_rect(midtop=(480, 130))
+# Plus Buttons
+plus_vit_surface = pygame.image.load('images/Icons/icon_plus.png').convert_alpha()
+plus_vit_surface = pygame.transform.scale(plus_vit_surface, (80, 80))
+plus_vit_rect = plus_vit_surface.get_rect(topleft=(670, 200))
+
+plus_str_surface = pygame.image.load('images/Icons/icon_plus.png').convert_alpha()
+plus_str_surface = pygame.transform.scale(plus_str_surface, (80, 80))
+plus_str_rect = plus_str_surface.get_rect(topleft=(670, 280))
+
+plus_fort_surface = pygame.image.load('images/Icons/icon_plus.png').convert_alpha()
+plus_fort_surface = pygame.transform.scale(plus_fort_surface, (80, 80))
+plus_fort_rect = plus_fort_surface.get_rect(topleft=(670, 360))
+
+plus_dex_surface = pygame.image.load('images/Icons/icon_plus.png').convert_alpha()
+plus_dex_surface = pygame.transform.scale(plus_dex_surface, (80, 80))
+plus_dex_rect = plus_dex_surface.get_rect(topleft=(670, 440))
+
+plus_agi_surface = pygame.image.load('images/Icons/icon_plus.png').convert_alpha()
+plus_agi_surface = pygame.transform.scale(plus_agi_surface, (80, 80))
+plus_agi_rect = plus_agi_surface.get_rect(topleft=(670, 520))
