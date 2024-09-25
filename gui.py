@@ -2,11 +2,12 @@ import pygame
 from player import p1
 
 pygame.init()
-pygame.display.set_mode((960, 680))
+screen = pygame.display.set_mode((960, 680))
 # Setup text and menu items that will always display
 game_menu_font = pygame.font.Font('fonts/Handjet-Regular.ttf', 50)
 battle_result_font = pygame.font.Font('fonts/Handjet-Regular.ttf', 24)
 top_stat_font = pygame.font.Font('fonts/Roboto-Regular.ttf', 18)
+player_stat_font = pygame.font.Font('fonts/Handjet-Regular.ttf', 40)
 # Top Stats
 stat_level_surface = top_stat_font.render('Level: ' + str(p1.level), True, 'Black')
 stat_level_rect = stat_level_surface.get_rect(topleft=(50, 15))
@@ -137,5 +138,13 @@ plus_dex_rect = plus_dex_surface.get_rect(topleft=(670, 440))
 plus_agi_surface = pygame.image.load('images/Icons/icon_plus.png').convert_alpha()
 plus_agi_surface = pygame.transform.scale(plus_agi_surface, (80, 80))
 plus_agi_rect = plus_agi_surface.get_rect(topleft=(670, 520))
-
+# create a list of buttons to make looping possible
 stat_plus_rects = [plus_vit_rect, plus_str_rect, plus_fort_rect, plus_dex_rect, plus_agi_rect]
+
+# Stat names
+title_vit_surface = player_stat_font.render('Vitality', True, 'Black')
+title_vit_rect = title_vit_surface.get_rect(topleft=(180, 205))
+
+
+
+# stat explanations
