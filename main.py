@@ -112,7 +112,7 @@ def battle_instance():
             gui.battle_text_surface4 = gui.battle_result_font.render(battle_text4, True, 'Black')
             break
         
-
+# Use switch case for stat plus buttons
 while running:
     # Draw Menu items that are always visible
     screen.fill('#bdbdbd')
@@ -133,6 +133,8 @@ while running:
             gui.stat_exp_surface = gui.top_stat_font.render('Exp to Level: ' + str(player.p1.exp_needed - player.p1.exp), True, 'Black')
             gui.stat_stats_surface = gui.top_stat_font.render('Stat Points: ' + str(player.p1.stat_points), True, 'Black')
             gui.stat_inventory_surface = gui.top_stat_font.render('Inventory Free: ' + str(player.p1.inventory_size - player.p1.num_items), True, 'Black')
+            gui.available_stats_surface = gui.game_menu_font.render('Available Points: ' + str(player.p1.stat_points), True, 'Black')
+            print(str(player.p1.agi))
 
         # Event for bar animation
         if event.type == BAR_EVENT:
@@ -163,6 +165,28 @@ while running:
                         en.battling = False
                     enemy.Enemy.all_enemies[index].battling = True
                     active_enemy = enemy.Enemy.all_enemies[index]
+            
+            # Find out which stat increase button is clicked
+            for i, rect in enumerate(gui.stat_plus_rects):
+                if rect.collidepoint(pygame.mouse.get_pos()) and player.p1.stat_points > 0:
+                    # update proper player stat
+                    if i == 0:  # Vitality
+                        player.p1.vit += 1
+                    elif i == 1:  # Strength
+                        player.p1.str += 1
+                    elif i == 2:  # Fortitude
+                        player.p1.fort += 1
+                    elif i == 3:  # Dexterity
+                        player.p1.dex += 1
+                    elif i == 4:  # Agility
+                        player.p1.agi += 1
+
+                    # Deduct a stat point
+                    player.p1.stat_points -= 1
+                    # Update stat point GUIs
+                    gui.available_stats_surface = gui.game_menu_font.render('Available Points: ' + str(player.p1.stat_points), True, 'Black')
+                    gui.stat_stats_surface = gui.top_stat_font.render('Stat Points: ' + str(player.p1.stat_points), True, 'Black')
+                    break  # Exit the loop after the first match
 
             
 

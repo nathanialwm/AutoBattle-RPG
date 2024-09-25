@@ -24,7 +24,6 @@ menu_equip_rect = menu_equip_surface.get_rect(midtop=(480, 45))
 menu_stats_surface = game_menu_font.render('Stats', True, 'Black')
 menu_stats_rect = menu_stats_surface.get_rect(midtop=(720, 45))
 
-
 # Create visuals and menus for battle screen
 battle_text_surface1 = battle_result_font.render('',True, 'Black')
 battle_text_surface2 = battle_result_font.render('',True, 'Black')
@@ -116,7 +115,7 @@ enemy_button_rects = [enemy_mouse_rect, enemy_giant_rat_rect, enemy_rabid_dog_re
                       boss_dragon_rect]
 
 # Stats screen
-available_stats_surface = game_menu_font.render('Available Points:', True, 'Black')
+available_stats_surface = game_menu_font.render('Available Points: ' + str(p1.stat_points), True, 'Black')
 available_stats_rect = available_stats_surface.get_rect(midtop=(480, 130))
 # Plus Buttons
 plus_vit_surface = pygame.image.load('images/Icons/icon_plus.png').convert_alpha()
@@ -138,3 +137,5 @@ plus_dex_rect = plus_dex_surface.get_rect(topleft=(670, 440))
 plus_agi_surface = pygame.image.load('images/Icons/icon_plus.png').convert_alpha()
 plus_agi_surface = pygame.transform.scale(plus_agi_surface, (80, 80))
 plus_agi_rect = plus_agi_surface.get_rect(topleft=(670, 520))
+
+stat_plus_rects = [plus_vit_rect, plus_str_rect, plus_fort_rect, plus_dex_rect, plus_agi_rect]
