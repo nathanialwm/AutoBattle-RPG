@@ -2,7 +2,7 @@ import pygame
 from player import p1
 
 pygame.init()
-screen = pygame.display.set_mode((960, 680))
+pygame.display.set_mode((960, 680))
 # Setup text and menu items that will always display
 game_menu_font = pygame.font.Font('fonts/Handjet-Regular.ttf', 50)
 battle_result_font = pygame.font.Font('fonts/Handjet-Regular.ttf', 24)
@@ -33,6 +33,7 @@ battle_text_surface4 = battle_result_font.render('',True, 'Black')
 
 loading_bar_rect = pygame.Rect(120, 105, 720, 20)
 # Enemy Portrait Icons
+
 mouse_icon_surface = pygame.image.load('images/Icons/icon_mouse.jpg').convert_alpha()
 mouse_icon_surface = pygame.transform.scale(mouse_icon_surface, (180, 180))
 mouse_icon_rect = mouse_icon_surface.get_rect(midtop=(240, 140))
@@ -142,9 +143,38 @@ plus_agi_rect = plus_agi_surface.get_rect(topleft=(670, 520))
 stat_plus_rects = [plus_vit_rect, plus_str_rect, plus_fort_rect, plus_dex_rect, plus_agi_rect]
 
 # Stat names
-title_vit_surface = player_stat_font.render('Vitality', True, 'Black')
+title_vit_surface = player_stat_font.render('Vitality: ' + str(p1.vit), True, 'Black')
 title_vit_rect = title_vit_surface.get_rect(topleft=(180, 205))
 
+title_str_surface = player_stat_font.render('Strength: ' + str(p1.str), True, 'Black')
+title_str_rect = title_str_surface.get_rect(topleft=(180, 285))
 
+title_fort_surface = player_stat_font.render('Fortitude: ' + str(p1.fort), True, 'Black')
+title_fort_rect = title_fort_surface.get_rect(topleft=(180, 365))
+
+title_dex_surface = player_stat_font.render('Dexterity: ' + str(p1.dex), True, 'Black')
+title_dex_rect = title_dex_surface.get_rect(topleft=(180, 445))
+
+title_agi_surface = player_stat_font.render('Agility: ' + str(p1.agi), True, 'Black')
+title_agi_rect = title_agi_surface.get_rect(topleft=(180, 525))
 
 # stat explanations
+
+
+# Update all battle reliant texts
+def update_battle_texts():
+    # call global variables
+    global stat_level_surface, stat_exp_surface, stat_stats_surface, stat_inventory_surface, available_stats_surface
+    global title_vit_surface, title_str_surface, title_fort_surface, title_dex_surface, title_agi_surface
+    #Top stats
+    stat_level_surface = top_stat_font.render('Level: ' + str(p1.level), True, 'Black')
+    stat_exp_surface = top_stat_font.render('Exp to Level: ' + str(p1.exp_needed - p1.exp), True, 'Black')
+    stat_stats_surface = top_stat_font.render('Stat Points: ' + str(p1.stat_points), True, 'Black')
+    stat_inventory_surface = top_stat_font.render('Inventory Free: ' + str(p1.inventory_size - p1.num_items), True, 'Black')
+    # Stats page
+    available_stats_surface = game_menu_font.render('Available Points: ' + str(p1.stat_points), True, 'Black')
+    title_vit_surface = player_stat_font.render('Vitality: ' + str(p1.vit), True, 'Black')
+    title_str_surface = player_stat_font.render('Strength: ' + str(p1.str), True, 'Black')
+    title_fort_surface = player_stat_font.render('Fortitude: ' + str(p1.fort), True, 'Black')
+    title_dex_surface = player_stat_font.render('Dexterity: ' + str(p1.dex), True, 'Black')
+    title_agi_surface = player_stat_font.render('Agility: ' + str(p1.agi), True, 'Black')

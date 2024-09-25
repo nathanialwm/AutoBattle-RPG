@@ -128,6 +128,7 @@ while running:
             active_enemy.temp_health = active_enemy.health
             # Call main loop
             battle_instance()
+            gui.update_battle_texts()
             # put top of screen stats on screen
             gui.stat_level_surface = gui.top_stat_font.render('Level: ' + str(player.p1.level), True, 'Black')
             gui.stat_exp_surface = gui.top_stat_font.render('Exp to Level: ' + str(player.p1.exp_needed - player.p1.exp), True, 'Black')
@@ -184,8 +185,7 @@ while running:
                     # Deduct a stat point
                     player.p1.stat_points -= 1
                     # Update stat point GUIs
-                    gui.available_stats_surface = gui.game_menu_font.render('Available Points: ' + str(player.p1.stat_points), True, 'Black')
-                    gui.stat_stats_surface = gui.top_stat_font.render('Stat Points: ' + str(player.p1.stat_points), True, 'Black')
+                    gui.update_battle_texts()
                     break  # Exit the loop after the first match
 
             
@@ -256,6 +256,10 @@ while running:
         screen.blit(gui.plus_agi_surface, gui.plus_agi_rect)
         # stat name text
         screen.blit(gui.title_vit_surface, gui.title_vit_rect)
+        screen.blit(gui.title_str_surface, gui.title_str_rect)
+        screen.blit(gui.title_fort_surface, gui.title_fort_rect)
+        screen.blit(gui.title_dex_surface, gui.title_dex_rect)
+        screen.blit(gui.title_agi_surface, gui.title_agi_rect)
     
     # Draw Loading Bar
     fill_width = (current_interval / total_intervals) * 720
