@@ -171,19 +171,19 @@ title_agi_surface = player_stat_font.render('Agility: ' + str(player.p1.agi), Tr
 title_agi_rect = title_agi_surface.get_rect(topleft=(180, 525))
 
 # Stat explanations
-explain_vit_surface = battle_result_font.render('Increases player health points', True, 'Black')
+explain_vit_surface = battle_result_font.render('Increases health points', True, 'Black')
 explain_vit_rect = explain_vit_surface.get_rect(topleft=(200, 250))
 
-explain_str_surface = battle_result_font.render('Increases player min and max damage', True, 'Black')
+explain_str_surface = battle_result_font.render('Increases min and max damage', True, 'Black')
 explain_str_rect = explain_str_surface.get_rect(topleft=(200, 330))
 
-explain_fort_surface = battle_result_font.render('Increases player damage mitigation', True, 'Black')
+explain_fort_surface = battle_result_font.render('Increases damage mitigation', True, 'Black')
 explain_fort_rect = explain_fort_surface.get_rect(topleft=(200, 410))
 
-explain_dex_surface = battle_result_font.render('Increases player chance to hit', True, 'Black')
+explain_dex_surface = battle_result_font.render('Increases chance to hit', True, 'Black')
 explain_dex_rect = explain_dex_surface.get_rect(topleft=(200, 490))
 
-explain_agi_surface = battle_result_font.render('Increases player chance to evade damage', True, 'Black')
+explain_agi_surface = battle_result_font.render('Increases chance to evade damage', True, 'Black')
 explain_agi_rect = explain_agi_surface.get_rect(topleft=(200, 570))
 # update all dynamic battle reliant texts
 def update_battle_texts():
