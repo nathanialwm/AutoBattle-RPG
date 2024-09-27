@@ -4,7 +4,6 @@ import pygame
 import player
 import enemy
 import equip
-import gui
 
 # Set mouse as active enemy when game loads
 active_enemy = enemy.Enemy.all_enemies[0]
@@ -49,43 +48,43 @@ loading_bar_rect = pygame.Rect(120, 105, 720, 20)
 
 mouse_icon_surface = pygame.image.load('images/Icons/icon_mouse.jpg').convert_alpha()
 mouse_icon_surface = pygame.transform.scale(mouse_icon_surface, (180, 180))
-mouse_icon_rect = mouse_icon_surface.get_rect(midtop=(240, 140))
+mouse_icon_rect = mouse_icon_surface.get_rect(midtop=(240, 180))
 
 giant_rat_icon_surface = pygame.image.load('images/Icons/icon_giant_rat.jpg').convert_alpha()
 giant_rat_icon_surface = pygame.transform.scale(giant_rat_icon_surface, (180, 180))
-giant_rat_icon_rect = giant_rat_icon_surface.get_rect(midtop=(240, 140))
+giant_rat_icon_rect = giant_rat_icon_surface.get_rect(midtop=(240, 180))
 
 rabid_dog_icon_surface = pygame.image.load('images/Icons/icon_rabid_dog.jpg').convert_alpha()
 rabid_dog_icon_surface = pygame.transform.scale(rabid_dog_icon_surface, (180, 180))
-rabid_dog_icon_rect = rabid_dog_icon_surface.get_rect(midtop=(240, 140))
+rabid_dog_icon_rect = rabid_dog_icon_surface.get_rect(midtop=(240, 180))
 
 skeleton_icon_surface = pygame.image.load('images/Icons/icon_skeleton.jpg').convert_alpha()
 skeleton_icon_surface = pygame.transform.scale(skeleton_icon_surface, (180, 180))
-skeleton_icon_rect = skeleton_icon_surface.get_rect(midtop=(240, 140))
+skeleton_icon_rect = skeleton_icon_surface.get_rect(midtop=(240, 180))
 
 thief_icon_surface = pygame.image.load('images/Icons/icon_thief.jpg').convert_alpha()
 thief_icon_surface = pygame.transform.scale(thief_icon_surface, (180, 180))
-thief_icon_rect = thief_icon_surface.get_rect(midtop=(240, 140))
+thief_icon_rect = thief_icon_surface.get_rect(midtop=(240, 180))
 
 zombie_icon_surface = pygame.image.load('images/Icons/icon_zombie.jpg').convert_alpha()
 zombie_icon_surface = pygame.transform.scale(zombie_icon_surface, (180, 180))
-zombie_icon_rect = zombie_icon_surface.get_rect(midtop=(240, 140))
+zombie_icon_rect = zombie_icon_surface.get_rect(midtop=(240, 180))
 
 yeti_icon_surface = pygame.image.load('images/Icons/icon_yeti.jpg').convert_alpha()
 yeti_icon_surface = pygame.transform.scale(yeti_icon_surface, (180, 180))
-yeti_icon_rect = yeti_icon_surface.get_rect(midtop=(240, 140))
+yeti_icon_rect = yeti_icon_surface.get_rect(midtop=(240, 180))
 
 vampire_icon_surface = pygame.image.load('images/Icons/icon_vampire.jpg').convert_alpha()
 vampire_icon_surface = pygame.transform.scale(vampire_icon_surface, (180, 180))
-vampire_icon_rect = vampire_icon_surface.get_rect(midtop=(240, 140))
+vampire_icon_rect = vampire_icon_surface.get_rect(midtop=(240, 180))
 
 minotaur_icon_surface = pygame.image.load('images/Icons/icon_minotaur.jpg').convert_alpha()
 minotaur_icon_surface = pygame.transform.scale(minotaur_icon_surface, (180, 180))
-minotaur_icon_rect = minotaur_icon_surface.get_rect(midtop=(240, 140))
+minotaur_icon_rect = minotaur_icon_surface.get_rect(midtop=(240, 180))
 
 dragon_icon_surface = pygame.image.load('images/Icons/icon_dragon.jpg').convert_alpha()
 dragon_icon_surface = pygame.transform.scale(dragon_icon_surface, (180, 180))
-dragon_icon_rect = dragon_icon_surface.get_rect(midtop=(240, 140))
+dragon_icon_rect = dragon_icon_surface.get_rect(midtop=(240, 180))
 
 # Buttons for enemy types | Button size 340x42
 enemy_mouse_surface = pygame.image.load('images/Buttons/button_mouse.png').convert_alpha()
@@ -171,6 +170,21 @@ title_dex_rect = title_dex_surface.get_rect(topleft=(180, 445))
 title_agi_surface = player_stat_font.render('Agility: ' + str(player.p1.agi), True, 'Black')
 title_agi_rect = title_agi_surface.get_rect(topleft=(180, 525))
 
+# Stat explanations
+explain_vit_surface = battle_result_font.render('Increases player health points', True, 'Black')
+explain_vit_rect = explain_vit_surface.get_rect(topleft=(200, 250))
+
+explain_str_surface = battle_result_font.render('Increases player min and max damage', True, 'Black')
+explain_str_rect = explain_str_surface.get_rect(topleft=(200, 330))
+
+explain_fort_surface = battle_result_font.render('Increases player damage mitigation', True, 'Black')
+explain_fort_rect = explain_fort_surface.get_rect(topleft=(200, 410))
+
+explain_dex_surface = battle_result_font.render('Increases player chance to hit', True, 'Black')
+explain_dex_rect = explain_dex_surface.get_rect(topleft=(200, 490))
+
+explain_agi_surface = battle_result_font.render('Increases player chance to evade damage', True, 'Black')
+explain_agi_rect = explain_agi_surface.get_rect(topleft=(200, 570))
 # update all dynamic battle reliant texts
 def update_battle_texts():
     # call global variables
@@ -404,10 +418,10 @@ while running:
         screen.blit(boss_dragon_surface, boss_dragon_rect)
 
         # Battle Text
-        screen.blit(battle_text_surface1, (370, 150))
-        screen.blit(battle_text_surface2, (370, 190))
-        screen.blit(battle_text_surface3, (370, 230))
-        screen.blit(battle_text_surface4, (370, 290))
+        screen.blit(battle_text_surface1, (370, 190))
+        screen.blit(battle_text_surface2, (370, 230))
+        screen.blit(battle_text_surface3, (370, 270))
+        screen.blit(battle_text_surface4, (370, 330))
 
         # Determine which monster is active
         for index, en in enumerate(enemy.Enemy.all_enemies):
@@ -434,6 +448,12 @@ while running:
         screen.blit(title_fort_surface, title_fort_rect)
         screen.blit(title_dex_surface, title_dex_rect)
         screen.blit(title_agi_surface, title_agi_rect)
+        # stat explanation text
+        screen.blit(explain_vit_surface, explain_vit_rect)
+        screen.blit(explain_str_surface, explain_str_rect)
+        screen.blit(explain_fort_surface, explain_fort_rect)
+        screen.blit(explain_dex_surface, explain_dex_rect)
+        screen.blit(explain_agi_surface, explain_agi_rect)
     
     # Draw Loading Bar
     fill_width = (current_interval / total_intervals) * 720
