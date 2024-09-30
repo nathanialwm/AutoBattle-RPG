@@ -16,7 +16,7 @@ class Item:
         7: 'attack',
         8: 'drop_chance'
     }
-    def __init__(self, image_path):
+    def __init__(self):
         # Item stats
         self.vit = 0  # Vitality - Effects Health Points
         self.str = 0  # Strength - Effects Damage
@@ -39,8 +39,7 @@ class Item:
         self.stats_rollable = 0
 
         # Item image
-        self.surface = pygame.image.load(image_path).convert_alpha()
-        self.image = pygame.image.load(image_path).convert_alpha()
+        self.image = None
         self.pos = None
 
         Item.all_items.append(self)
@@ -51,7 +50,7 @@ class Item:
                         (self.attack/2.5) + (self.drop_chance*2))
 
     def resize(self,size):
-        return pygame.transform.scale(self.surface,(size,size))
+        return pygame.transform.scale(self.image,(size,size))
     def item_strength(self, active_enemy):
         return active_enemy.drop
     
@@ -100,25 +99,45 @@ class Item:
         roll_rarity(self)
 
         if self.eq_type == 'gat':
-            pass
+            self.image = pygame.image.load('images/Equipment/gun.png').convert_alpha()
         else:
+            # roll for number of stats on item
             eq_num = random.randint(1,5)
             num_stats = random.randint(self.stats_rollable[0], self.stats_rollable[1])
+            # set lists for equipment images
+            armors = [pygame.image.load('images/Equipment/armor1.png').convert_alpha(),pygame.image.load('images/Equipment/armor2.png').convert_alpha(),
+                      pygame.image.load('images/Equipment/armor3.png').convert_alpha()]
+            helms = [pygame.image.load('images/Equipment/helm1.png').convert_alpha(),pygame.image.load('images/Equipment/helm2.png').convert_alpha(),
+                      pygame.image.load('images/Equipment/helm3.png').convert_alpha()]
+            boots = [pygame.image.load('images/Equipment/boot1.png').convert_alpha(),pygame.image.load('images/Equipment/boot2.png').convert_alpha(),
+                      pygame.image.load('images/Equipment/boot3.png').convert_alpha()]
+            necks =  [pygame.image.load('images/Equipment/neck1.png').convert_alpha(),pygame.image.load('images/Equipment/neck2.png').convert_alpha()]
+            weps = [pygame.image.load('images/Equipment/axe1.png').convert_alpha(),pygame.image.load('images/Equipment/axe2.png').convert_alpha(),
+                      pygame.image.load('images/Equipment/axe3.png').convert_alpha(), pygame.image.load('images/Equipment/sword1.png').convert_alpha(),
+                      pygame.image.load('images/Equipment/sword2.png').convert_alpha(), pygame.image.load('images/Equipment/sword3.png').convert_alpha(),
+                      pygame.image.load('images/Equipment/bow1.png').convert_alpha(), pygame.image.load('images/Equipment/bow2.png').convert_alpha(),
+                      pygame.image.load('images/Equipment/bow3.png').convert_alpha()]
+            # determine stats available and images used based on type
             match eq_num:
                 case 1:
                     self.eq_type = 'armor'
+                    self.image = armors[random.randint(0,2)]
                     stats = [0,1,2,3,4,5,6]
                 case 2:
                     self.eq_type = 'weapon'
+                    self.image = weps[random.randint(0,8)]
                     stats = [0,1,2,3,4,7]
                 case 3:
                     self.eq_type = 'jewelry'
+                    self.image = necks[random.randint(0,1)]
                     stats = [0,1,2,3,4,5,6,7,8]
                 case 4:
                     self.eq_type = 'helm'
+                    self.image = helms[random.randint(0,2)]
                     stats = [0,1,2,3,4,5,6]
                 case 5:
                     self.eq_type = 'boot'
+                    self.image = boots[random.randint(0,2)]
                     stats = [0,1,2,3,4,5,6]
 
             num_item_stats = random.sample(stats, num_stats)

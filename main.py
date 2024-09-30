@@ -276,7 +276,9 @@ def battle_instance():
             enemy_total_attacks = enemy_hits + enemy_misses
             exp_gained = active_enemy.exp_award
             player.p1.exp += exp_gained
-            player_inventory.get_next_available_space(equip.Item('images/Equipment/sword3.png'))
+            new_item = equip.Item()
+            new_item.roll_item(active_enemy)
+            player_inventory.get_next_available_space(new_item)
             # if player exp causes a level up
             while player.p1.exp >= player.p1.exp_needed:
                 player.p1.level_up()
