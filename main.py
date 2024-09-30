@@ -15,6 +15,8 @@ pygame.display.set_caption('AutoBattle RPG')
 clock = pygame.time.Clock()
 running = True
 
+player_inventory = equip.Inventory()
+
 # Set all surfaces and rects for gui items
 game_menu_font = pygame.font.Font('fonts/Handjet-Regular.ttf', 50)
 battle_result_font = pygame.font.Font('fonts/Handjet-Regular.ttf', 24)
@@ -129,9 +131,6 @@ enemy_button_rects = [enemy_mouse_rect, enemy_giant_rat_rect, enemy_rabid_dog_re
                       boss_dragon_rect]
 # Equip Screen
 
-
-    
-player_inv = equip.Inventory()
 # Bottom icons
 
 # Stats screen
@@ -276,6 +275,7 @@ def battle_instance():
             enemy_total_attacks = enemy_hits + enemy_misses
             exp_gained = active_enemy.exp_award
             player.p1.exp += exp_gained
+            #player_inventory.get_next_available_space(equip.Item('images/Equipment/sword3.png'))
             # if player exp causes a level up
             while player.p1.exp >= player.p1.exp_needed:
                 player.p1.level_up()
@@ -438,7 +438,7 @@ while running:
              
     # Create equipment screen
     if equip_screen:
-        player_inv.draw(screen)
+        player_inventory.draw(screen)
 
     # create stat screen
     if stat_screen:
