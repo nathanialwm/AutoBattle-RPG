@@ -7,7 +7,7 @@ import equip
 
 # Set mouse as active enemy when game loads
 active_enemy = enemy.Enemy.all_enemies[0]
-
+all_items = equip.Item.all_items
 # pygame setup
 pygame.init()
 screen = pygame.display.set_mode((960, 680))

@@ -13,12 +13,14 @@ class Item:
         self.health = health  # Health Value
         self.eq_type = eqtype  # Type of equipment
         self.rarity = rarity # Rarity of the item
-        self.image = pygame.image.load(image_path)
+        self.image = pygame.image.load(image_path).convert_alpha
         self.rect = self.image.get_rect()
         self.pos = None
 
         Item.all_items.append(self)
 
+    def resize(self,size):
+        return pygame.transform.scale(self.image,(size,size))
     def item_strength(self, active_enemy):
         return active_enemy.drop
     
@@ -73,25 +75,25 @@ class Jewelry(Item):
 
 class Inventory:
     def __init__(self):
-        self.rows = 3
-        self.col = 8
+        self.rows = 2
+        self.col = 10
         self.items = [[None for _ in range(self.rows)] for _ in range(self.col)]
-        self.box_size = 40
-        self.x = 50
-        self.y = 50
+        self.box_size = 65
+        self.x = 124
+        self.y = 470
         self.border = 3
     
     #draw everything
     def draw(self, screen):
         #draw background
-        pygame.draw.rect(screen,(100,100,100),
+        pygame.draw.rect(screen,(60,60,60),
                          (self.x,self.y,(self.box_size + self.border)*self.col + self.border,(self.box_size + self.border)*self.rows + self.border))
         for x in range(self.col):
             for y in range(self.rows):
-                rect = (self.x + (self.box_size + self.border)*x + self.border,self.x + (self.box_size + self.border)*y + self.border,self.box_size,self.box_size )
-                pygame.draw.rect(screen,(180,180,180),rect)
+                rect = (self.x + (self.box_size + self.border)*x + self.border, self.y + (self.box_size + self.border)*y + self.border, self.box_size, self.box_size)
+                pygame.draw.rect(screen,('#bdbdbd'),rect)
                 if self.items[x][y]:
-                    screen.blit(self.items[x][y].resize(self.box_size),rect)
+                    screen.blit(self.items[x][y].resize(self.box_size), rect)
                     
     #get the square that the mouse is over
     def Get_pos(self):
