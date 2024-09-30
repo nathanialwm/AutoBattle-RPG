@@ -67,56 +67,56 @@ class Item:
                 # Number of different stats that can be rolled on an item
                 self.stats_rollable = [4,6]
                 # change item background color based on rarity
-                self.rarity_color = (255, 178, 0)
+                self.rarity_color = '#ffb12b'
                 # roll for easter egg item
                 secret_roll = random.random()
                 if secret_roll > 0.99:
                     self.eq_type = 'gat'
                     self.rarity_value = 4
                     self.stats_rollable = [4,6]
-                    self.rarity_color = (243, 107, 0)
+                    self.rarity_color = '#fa7000'
             elif roll > .90:
                 self.rarity = 'epic'
                 self.rarity_value = 1.8
                 self.stats_rollable = [3,5]
-                self.rarity_color = (175, 0, 236)
+                self.rarity_color = '#a92de3'
             elif roll > .70:
                 self.rarity = 'rare'
                 self.rarity_value = 1.4
                 self.stats_rollable = [3,4]
-                self.rarity_color = (41, 158, 255)
+                self.rarity_color = '#5b83f0'
             elif roll > .40:
                 self.rarity = 'uncommon'
                 self.rarity_value = 1.2
                 self.stats_rollable = [2,3]
-                self.rarity_color = (13, 255, 50)
+                self.rarity_color = '#45ed61'
             elif roll <= .40:
                 self.rarity = 'common'
                 self.rarity_value = 1
                 self.stats_rollable = [1,3]
-                self.rarity_color = (248, 248, 248)
+                self.rarity_color = '#ebebeb'
                 
         roll_rarity(self)
 
         if self.eq_type == 'gat':
-            self.image = pygame.image.load('images/Equipment/gun.png').convert_alpha()
+            self.image = pygame.image.load('images/Equipment/gun.png')
         else:
             # roll for number of stats on item
             eq_num = random.randint(1,5)
             num_stats = random.randint(self.stats_rollable[0], self.stats_rollable[1])
             # set lists for equipment images
-            armors = [pygame.image.load('images/Equipment/armor1.png').convert_alpha(),pygame.image.load('images/Equipment/armor2.png').convert_alpha(),
-                      pygame.image.load('images/Equipment/armor3.png').convert_alpha()]
-            helms = [pygame.image.load('images/Equipment/helm1.png').convert_alpha(),pygame.image.load('images/Equipment/helm2.png').convert_alpha(),
-                      pygame.image.load('images/Equipment/helm3.png').convert_alpha()]
-            boots = [pygame.image.load('images/Equipment/boot1.png').convert_alpha(),pygame.image.load('images/Equipment/boot2.png').convert_alpha(),
-                      pygame.image.load('images/Equipment/boot3.png').convert_alpha()]
-            necks =  [pygame.image.load('images/Equipment/neck1.png').convert_alpha(),pygame.image.load('images/Equipment/neck2.png').convert_alpha()]
-            weps = [pygame.image.load('images/Equipment/axe1.png').convert_alpha(),pygame.image.load('images/Equipment/axe2.png').convert_alpha(),
-                      pygame.image.load('images/Equipment/axe3.png').convert_alpha(), pygame.image.load('images/Equipment/sword1.png').convert_alpha(),
-                      pygame.image.load('images/Equipment/sword2.png').convert_alpha(), pygame.image.load('images/Equipment/sword3.png').convert_alpha(),
-                      pygame.image.load('images/Equipment/bow1.png').convert_alpha(), pygame.image.load('images/Equipment/bow2.png').convert_alpha(),
-                      pygame.image.load('images/Equipment/bow3.png').convert_alpha()]
+            armors = [pygame.image.load('images/Equipment/armor1.png'),pygame.image.load('images/Equipment/armor2.png'),
+                      pygame.image.load('images/Equipment/armor3.png')]
+            helms = [pygame.image.load('images/Equipment/helm1.png'),pygame.image.load('images/Equipment/helm2.png'),
+                      pygame.image.load('images/Equipment/helm3.png')]
+            boots = [pygame.image.load('images/Equipment/boot1.png'),pygame.image.load('images/Equipment/boot2.png'),
+                      pygame.image.load('images/Equipment/boot3.png')]
+            necks =  [pygame.image.load('images/Equipment/neck1.png'),pygame.image.load('images/Equipment/neck2.png')]
+            weps = [pygame.image.load('images/Equipment/axe1.png'),pygame.image.load('images/Equipment/axe2.png'),
+                      pygame.image.load('images/Equipment/axe3.png'), pygame.image.load('images/Equipment/sword1.png'),
+                      pygame.image.load('images/Equipment/sword2.png'), pygame.image.load('images/Equipment/sword3.png'),
+                      pygame.image.load('images/Equipment/bow1.png'), pygame.image.load('images/Equipment/bow2.png'),
+                      pygame.image.load('images/Equipment/bow3.png')]
             # determine stats available and images used based on type
             match eq_num:
                 case 1:

@@ -276,9 +276,12 @@ def battle_instance():
             enemy_total_attacks = enemy_hits + enemy_misses
             exp_gained = active_enemy.exp_award
             player.p1.exp += exp_gained
-            new_item = equip.Item()
-            new_item.roll_item(active_enemy)
-            player_inventory.get_next_available_space(new_item)
+            roll_for_item = random.randint(1,10)
+            print(roll_for_item)
+            if roll_for_item == 10:
+                new_item = equip.Item()
+                new_item.roll_item(active_enemy)
+                player_inventory.get_next_available_space(new_item)
             # if player exp causes a level up
             while player.p1.exp >= player.p1.exp_needed:
                 player.p1.level_up()
@@ -333,7 +336,6 @@ while running:
             stat_stats_surface = top_stat_font.render('Stat Points: ' + str(player.p1.stat_points), True, 'Black')
             stat_inventory_surface = top_stat_font.render('Inventory Free: ' + str(player.p1.inventory_size - player.p1.num_items), True, 'Black')
             available_stats_surface = game_menu_font.render('Available Points: ' + str(player.p1.stat_points), True, 'Black')
-            print(str(player.p1.agi))
 
         # Event for bar animation
         if event.type == BAR_EVENT:
