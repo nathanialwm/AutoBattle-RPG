@@ -3,7 +3,6 @@ import random
 import player
 import enemy
 import equip
-import gui
 from math import e
 
 ########################################################################################################################

@@ -2,18 +2,18 @@ import equip
 import random
 
 class Player:
-  def __init__(self, vit, str, fort, dex, agi, inventorysize, num_items, statpoints, level, exp, exp_needed):
-    self.vit = vit # Vitality - Effects Health Points
-    self.str = str # Strength - Effects Damage
-    self.fort = fort # Fortitude - Effects Defense
-    self.dex = dex # Dexterity - Effects Hit Chance
-    self.agi = agi # Agility - Effects Evade Chance
-    self.inventory_size = inventorysize # The amount of inventory player can have
-    self.num_items = num_items # the amount of items the player currently has
-    self.stat_points = statpoints # Stat points available to spend. Player gets 5 per level
-    self.level = level # Players character level
-    self.exp = exp # Experience the player has earned
-    self.exp_needed = exp_needed # Expereince required to level
+  def __init__(self):
+    self.vit = 5 # Vitality - Effects Health Points
+    self.str = 5 # Strength - Effects Damage
+    self.fort = 5 # Fortitude - Effects Defense
+    self.dex = 5 # Dexterity - Effects Hit Chance
+    self.agi = 5 # Agility - Effects Evade Chance
+    self.inventory_size = 20 # The amount of inventory player can have
+    self.num_items = 0 # the amount of items the player currently has
+    self.stat_points = 0 # Stat points available to spend. Player gets 5 per level
+    self.level = 1 # Players character level
+    self.exp = 0 # Experience the player has earned
+    self.exp_needed = 5 # Expereince required to level
 
 # dependant properties
   @property
@@ -34,11 +34,11 @@ class Player:
   @property
   def max_attack(self):
      return round(self.str * 3)
-
+   # Roll for player attack turn
   def player_this_attack(self):
           this_attack = random.randint(self.min_attack, self.max_attack)
           return this_attack
-
+   #Player level up
   def level_up(self):
       self.exp = self.exp - self.exp_needed
       self.level += 1
@@ -47,11 +47,15 @@ class Player:
       if self.level % 2 == 0:
          self.vit += 1; self.str += 1; self.fort += 1; self.dex += 1; self.agi += 1
 
-  def spend_stat_points(self):
-    pass
-
   def change_equip(self):
     pass
+  
+  def save_game(self):
+     pass
+  
+  def load_game(self):
+     pass
+  
 
-p1 = Player(vit=5, str=5, fort=5, dex=5, agi=5, inventorysize=20, num_items=0, statpoints=0, level=1, exp=0, exp_needed=5)
+p1 = Player()
 
