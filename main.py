@@ -228,6 +228,7 @@ current_interval = 1
 BAR_EVENT = pygame.USEREVENT + 2
 bar_timer = pygame.time.set_timer(BAR_EVENT, 500)
 
+
 # Battle logic
 def battle_instance():
     # define variables to tracks hits and misses
@@ -275,7 +276,7 @@ def battle_instance():
             enemy_total_attacks = enemy_hits + enemy_misses
             exp_gained = active_enemy.exp_award
             player.p1.exp += exp_gained
-            #player_inventory.get_next_available_space(equip.Item('images/Equipment/sword3.png'))
+            player_inventory.get_next_available_space(equip.Item('images/Equipment/sword3.png'))
             # if player exp causes a level up
             while player.p1.exp >= player.p1.exp_needed:
                 player.p1.level_up()
