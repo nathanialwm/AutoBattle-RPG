@@ -127,6 +127,12 @@ enemy_rects = [mouse_icon_rect,giant_rat_icon_rect,rabid_dog_icon_rect,skeleton_
 enemy_button_rects = [enemy_mouse_rect, enemy_giant_rat_rect, enemy_rabid_dog_rect, enemy_skeleton_rect,
                       boss_thief_rect, enemy_zombie_rect, enemy_yeti_rect, enemy_vampire_rect, enemy_minotaur_rect,
                       boss_dragon_rect]
+# Equip Screen
+
+
+    
+player_inv = equip.Inventory()
+# Bottom icons
 
 # Stats screen
 available_stats_surface = game_menu_font.render('Available Points: ' + str(player.p1.stat_points), True, 'Black')
@@ -304,6 +310,7 @@ def battle_instance():
 while running:
     # Draw Menu items that are always visible
     screen.fill('#bdbdbd')
+    
     # pygame.QUIT event means the user clicked X to close your window
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -431,7 +438,7 @@ while running:
              
     # Create equipment screen
     if equip_screen:
-        pass
+        player_inv.draw(screen)
 
     # create stat screen
     if stat_screen:

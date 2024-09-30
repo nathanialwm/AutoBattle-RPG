@@ -53,5 +53,5 @@ class Player:
   def change_equip(self):
     pass
 
-p1 = Player(vit=5, str=5, fort=5, dex=5, agi=5, inventorysize=10, num_items=0, statpoints=0, level=1, exp=0, exp_needed=5)
+p1 = Player(vit=5, str=5, fort=5, dex=5, agi=5, inventorysize=20, num_items=0, statpoints=0, level=1, exp=0, exp_needed=5)
 
