@@ -190,6 +190,40 @@ explain_dex_rect = explain_dex_surface.get_rect(topleft=(200, 490))
 
 explain_agi_surface = battle_result_font.render('Increases chance to evade damage', True, 'Black')
 explain_agi_rect = explain_agi_surface.get_rect(topleft=(200, 570))
+
+# player equipment
+def draw_player_equips():
+    global helm_rect, armor_rect, boot_rect, neck_rect, wep_rect
+    #helm slot
+    helm_border_rect = pygame.Rect(620,160,65,65)
+    pygame.draw.rect(screen, '#5f5f5f', helm_border_rect)
+    helm_rect = pygame.Rect(625,165,55,55)
+    pygame.draw.rect(screen, '#ababab', helm_rect)
+
+    #armor slot
+    armor_border_rect = pygame.Rect(620,260,65,65)
+    pygame.draw.rect(screen, '#5f5f5f', armor_border_rect)
+    armor_rect = pygame.Rect(625,265,55,55)
+    pygame.draw.rect(screen, '#ababab', armor_rect)
+
+    #boots slot
+    boot_border_rect = pygame.Rect(620,360,65,65)
+    pygame.draw.rect(screen, '#5f5f5f', boot_border_rect)
+    boot_rect = pygame.Rect(625,365,55,55)
+    pygame.draw.rect(screen, '#ababab', boot_rect)
+
+    # necklace slot
+    neck_border_rect = pygame.Rect(720,210,65,65)
+    pygame.draw.rect(screen, '#5f5f5f', neck_border_rect)
+    neck_rect = pygame.Rect(725,215,55,55)
+    pygame.draw.rect(screen, '#ababab', neck_rect)
+
+    # weapon slot
+    wep_border_rect = pygame.Rect(520,260,65,65)
+    pygame.draw.rect(screen, '#5f5f5f', wep_border_rect)
+    wep_rect = pygame.Rect(525,265,55,55)
+    pygame.draw.rect(screen, '#ababab', wep_rect)
+
 # update all dynamic battle reliant texts
 def update_battle_texts():
     # call global variables
@@ -277,11 +311,15 @@ def battle_instance():
             exp_gained = active_enemy.exp_award
             player.p1.exp += exp_gained
             roll_for_item = random.randint(1,10)
-            print(roll_for_item)
+            for _ in range(0,10):
+                new_item = equip.Item()
+                new_item.roll_item(active_enemy)
+                player_inventory.get_next_available_space(new_item)
             if roll_for_item == 10:
                 new_item = equip.Item()
                 new_item.roll_item(active_enemy)
                 player_inventory.get_next_available_space(new_item)
+                player.p1.num_items += 1
             # if player exp causes a level up
             while player.p1.exp >= player.p1.exp_needed:
                 player.p1.level_up()
@@ -344,17 +382,18 @@ while running:
                 current_interval = 1
 
         # Create all click events
-        if event.type == pygame.MOUSEBUTTONUP:
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            pos = pygame.mouse.get_pos()
             # Clicking between menus
-            if menu_battle_rect.collidepoint(pygame.mouse.get_pos()):
+            if menu_battle_rect.collidepoint(pos):
                 battle_screen = True
                 equip_screen = False
                 stat_screen = False
-            if menu_equip_rect.collidepoint(pygame.mouse.get_pos()):
+            if menu_equip_rect.collidepoint(pos):
                 battle_screen = False
                 equip_screen = True
                 stat_screen = False
-            if menu_stats_rect.collidepoint(pygame.mouse.get_pos()):
+            if menu_stats_rect.collidepoint(pos):
                 battle_screen = False
                 equip_screen = False
                 stat_screen = True
@@ -387,8 +426,22 @@ while running:
                     # Update stat point GUIs
                     update_battle_texts()
                     break  # Exit the loop after the first match
-
             
+            for item in all_items:
+                if item.rect.collidepoint(pygame.mouse.get_pos()) and equip_screen:
+                    if pygame.mouse.get_pressed()[0]:
+                        if pygame.key.get_mods() & pygame.KMOD_SHIFT:
+                            player_inventory.remove_item_image(item)
+                            all_items.remove(item)
+                            del item                          
+                            player.p1.num_items -= 1
+
+                    if pygame.mouse.get_pressed()[2]:
+                        player_inventory.remove_item_image(item)
+                        player.p1.num_items -= 1
+                        player_inventory.move_item_image(screen, item)
+                            
+                        
 
     # Hover effects for top menu
     if menu_battle_rect.collidepoint(pygame.mouse.get_pos()):
@@ -444,6 +497,13 @@ while running:
     # Create equipment screen
     if equip_screen:
         player_inventory.draw(screen)
+        draw_player_equips()
+        for item in all_items:
+            if item.rect.collidepoint(pygame.mouse.get_pos()):
+                tooltip_font = pygame.font.Font('fonts/Roboto-Regular.ttf', 20)
+                tooltip_text = tooltip_font.render('Item Score: ' + str(item.item_score), True, 'Black')
+                screen.blit(tooltip_text, (650, 445))
+
 
     # create stat screen
     if stat_screen:

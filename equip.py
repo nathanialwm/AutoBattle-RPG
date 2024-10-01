@@ -40,14 +40,15 @@ class Item:
 
         # Item image
         self.image = None
+        self.rect = None
         self.pos = None
 
         Item.all_items.append(self)
 
     @property
     def item_score(self):
-        return round(self.vit + self.str + self.fort + self.dex + self.agi + (self.health/4) + (self.defense/2) +
-                        (self.attack/2.5) + (self.drop_chance*2))
+        return (round(self.vit + self.str + self.fort + self.dex + self.agi + (self.health/4) + (self.defense/2) +
+                        (self.attack/2.5) + (self.drop_chance*2)))*5
 
     def resize(self,size):
         return pygame.transform.scale(self.image,(size,size))
@@ -139,6 +140,7 @@ class Item:
                     self.eq_type = 'boot'
                     self.image = boots[random.randint(0,2)]
                     stats = [0,1,2,3,4,5,6]
+            self.rect = self.image.get_rect()
 
             num_item_stats = random.sample(stats, num_stats)
             print(str(num_item_stats))
@@ -150,6 +152,13 @@ class Item:
 
 class Inventory:
     def __init__(self):
+        self.equipment = {
+            'helm': None,
+            'armor': None,
+            'boot': None,
+            'neck': None,
+            'weapon': None
+        }
         self.rows = 2
         self.col = 10
         self.items = [[None for _ in range(self.rows)] for _ in range(self.col)]
@@ -160,13 +169,27 @@ class Inventory:
     
     #draw everything
     def draw(self, screen):
+
+        equipment_positions = {
+            'helm': (625, 165),
+            'armor': (625, 265),
+            'boot': (625, 365),
+            'neck': (725, 215),
+            'weapon': (525, 265)
+        }
+        for eq_type, item in self.equipment.items():
+            if item:
+                screen.blit(item.image.resize(55), equipment_positions[eq_type])
         #draw background
         pygame.draw.rect(screen,(60,60,60),
                          (self.x,self.y,(self.box_size + self.border)*self.col + self.border,(self.box_size + self.border)*self.rows + self.border))
         # Draw grid
         for x in range(self.col):
             for y in range(self.rows):
-                rect = (self.x + (self.box_size + self.border)*x + self.border, self.y + (self.box_size + self.border)*y + self.border, self.box_size, self.box_size)
+                rect = pygame.Rect(self.x + (self.box_size + self.border)*x + self.border, self.y + (self.box_size + self.border)*y + self.border, self.box_size, self.box_size)
+                item = self.items[x][y]
+                if item:
+                    item.rect = rect
                 # Change color of square based on rarity
                 if self.items[x][y]:
                     color = self.items[x][y].rarity_color
@@ -175,16 +198,24 @@ class Inventory:
                 pygame.draw.rect(screen,color,rect)
                 if self.items[x][y]:
                     screen.blit(self.items[x][y].resize(55), (rect[0] +5, rect[1] +5, rect[2], rect[3]))
-                    
-    #get the square that the mouse is over
-    def Get_pos(self):
-        mouse = pygame.mouse.get_pos()
-        
-        x = mouse[0] - self.x
-        y = mouse[1] - self.y
-        x = x//(self.box_size + self.border)
-        y = y//(self.box_size + self.border)
-        return (x,y)
+
+    def remove_item_image(self, item):
+    # Remove the item's image from the grid
+        for x in range(self.col):
+            for y in range(self.rows):
+                if self.items[x][y] == item:
+                    self.items[x][y] = None
+                    return
+
+    def move_item_image(self, screen, item):
+    # Remove the item's image from the grid
+        for x in range(self.col):
+            for y in range(self.rows):
+                if self.items[x][y] == item:
+                    self.items[x][y] = None
+                    self.equipment[item.eq_type] = item
+                    return
+   
     
     #add an item/s
     def get_next_available_space(self, item):
