@@ -191,38 +191,7 @@ explain_dex_rect = explain_dex_surface.get_rect(topleft=(200, 490))
 explain_agi_surface = battle_result_font.render('Increases chance to evade damage', True, 'Black')
 explain_agi_rect = explain_agi_surface.get_rect(topleft=(200, 570))
 
-# player equipment
-def draw_player_equips():
-    global helm_rect, armor_rect, boot_rect, neck_rect, wep_rect
-    #helm slot
-    helm_border_rect = pygame.Rect(620,160,65,65)
-    pygame.draw.rect(screen, '#5f5f5f', helm_border_rect)
-    helm_rect = pygame.Rect(625,165,55,55)
-    pygame.draw.rect(screen, '#ababab', helm_rect)
-
-    #armor slot
-    armor_border_rect = pygame.Rect(620,260,65,65)
-    pygame.draw.rect(screen, '#5f5f5f', armor_border_rect)
-    armor_rect = pygame.Rect(625,265,55,55)
-    pygame.draw.rect(screen, '#ababab', armor_rect)
-
-    #boots slot
-    boot_border_rect = pygame.Rect(620,360,65,65)
-    pygame.draw.rect(screen, '#5f5f5f', boot_border_rect)
-    boot_rect = pygame.Rect(625,365,55,55)
-    pygame.draw.rect(screen, '#ababab', boot_rect)
-
-    # necklace slot
-    neck_border_rect = pygame.Rect(720,210,65,65)
-    pygame.draw.rect(screen, '#5f5f5f', neck_border_rect)
-    neck_rect = pygame.Rect(725,215,55,55)
-    pygame.draw.rect(screen, '#ababab', neck_rect)
-
-    # weapon slot
-    wep_border_rect = pygame.Rect(520,260,65,65)
-    pygame.draw.rect(screen, '#5f5f5f', wep_border_rect)
-    wep_rect = pygame.Rect(525,265,55,55)
-    pygame.draw.rect(screen, '#ababab', wep_rect)
+# player equipment  
 
 # update all dynamic battle reliant texts
 def update_battle_texts():
@@ -437,9 +406,13 @@ while running:
                             player.p1.num_items -= 1
 
                     if pygame.mouse.get_pressed()[2]:
-                        player_inventory.remove_item_image(item)
+                        #remove item from inventory grid
                         player.p1.num_items -= 1
                         player_inventory.move_item_image(screen, item)
+                        #refresh items list
+                        all_items.remove(item)
+                        all_items = equip.Item.all_items
+
                             
                         
 
@@ -497,7 +470,7 @@ while running:
     # Create equipment screen
     if equip_screen:
         player_inventory.draw(screen)
-        draw_player_equips()
+        player_inventory.draw_equips(screen)
         for item in all_items:
             if item.rect.collidepoint(pygame.mouse.get_pos()):
                 tooltip_font = pygame.font.Font('fonts/Roboto-Regular.ttf', 20)

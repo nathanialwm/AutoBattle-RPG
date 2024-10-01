@@ -143,7 +143,6 @@ class Item:
             self.rect = self.image.get_rect()
 
             num_item_stats = random.sample(stats, num_stats)
-            print(str(num_item_stats))
             for x in num_item_stats:
                 value = random.randint(self.base_range[0], self.base_range[1])
                 calc_value = round(value * self.rarity_value * active_enemy.drop_strength)
@@ -156,8 +155,16 @@ class Inventory:
             'helm': None,
             'armor': None,
             'boot': None,
-            'neck': None,
+            'jewelry': None,
             'weapon': None
+        }
+
+        self.equipment_positions = {
+            'helm': (625, 165),
+            'armor': (625, 265),
+            'boot': (625, 365),
+            'jewelry': (725, 215),
+            'weapon': (525, 265)
         }
         self.rows = 2
         self.col = 10
@@ -170,16 +177,6 @@ class Inventory:
     #draw everything
     def draw(self, screen):
 
-        equipment_positions = {
-            'helm': (625, 165),
-            'armor': (625, 265),
-            'boot': (625, 365),
-            'neck': (725, 215),
-            'weapon': (525, 265)
-        }
-        for eq_type, item in self.equipment.items():
-            if item:
-                screen.blit(item.image.resize(55), equipment_positions[eq_type])
         #draw background
         pygame.draw.rect(screen,(60,60,60),
                          (self.x,self.y,(self.box_size + self.border)*self.col + self.border,(self.box_size + self.border)*self.rows + self.border))
@@ -212,11 +209,38 @@ class Inventory:
         for x in range(self.col):
             for y in range(self.rows):
                 if self.items[x][y] == item:
-                    self.items[x][y] = None
                     self.equipment[item.eq_type] = item
+                    self.items[x][y] = None
                     return
-   
-    
+                
+    def draw_equips(self, screen):
+
+        helm_border_rect = pygame.Rect(620,160,65,65)
+        pygame.draw.rect(screen, '#5f5f5f', helm_border_rect)
+
+        #armor slot
+        armor_border_rect = pygame.Rect(620,260,65,65)
+        pygame.draw.rect(screen, '#5f5f5f', armor_border_rect)
+
+        #boots slot
+        boot_border_rect = pygame.Rect(620,360,65,65)
+        pygame.draw.rect(screen, '#5f5f5f', boot_border_rect)
+
+        # necklace slot
+        neck_border_rect = pygame.Rect(720,210,65,65)
+        pygame.draw.rect(screen, '#5f5f5f', neck_border_rect)
+
+        # weapon slot
+        wep_border_rect = pygame.Rect(520,260,65,65)
+        pygame.draw.rect(screen, '#5f5f5f', wep_border_rect)
+
+        for eq_type, itm in self.equipment.items():
+            if itm:
+                screen.blit(itm.resize(55), self.equipment_positions[eq_type])
+            else:
+                print(self.equipment_positions[eq_type])
+                #pygame.draw.rect(screen, '#ababab', self.equipment_positions[eq_type])
+
     #add an item/s
     def get_next_available_space(self, item):
         for y in range(len(self.items[0])):
