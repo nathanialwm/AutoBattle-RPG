@@ -150,7 +150,9 @@ class Item:
                 setattr(self, stat_name, calc_value)  # assign the rolled value to the stat attribute
 
 class Inventory:
+    
     def __init__(self):
+        self.selected = None
         self.equipment = {
             'helm': None,
             'armor': None,
@@ -211,8 +213,20 @@ class Inventory:
                 if self.items[x][y] == item:
                     self.equipment[item.eq_type] = item
                     self.items[x][y] = None
+                    item.rect = item.image.get_rect(topleft=self.equipment_positions[item.eq_type])
+                    self.selected = item     
                     return
-                
+            
+    #add an item/s
+    def get_next_available_space(self, item):
+        for y in range(len(self.items[0])):
+            for x in range(len(self.items)):
+                if not self.items[x][y]:
+                    self.items[x][y] = item
+                    return (x, y)
+        return None
+    
+    # draw player equipment slots
     def draw_equips(self, screen):
 
         helm_border_rect = pygame.Rect(620,160,65,65)
@@ -236,17 +250,22 @@ class Inventory:
 
         for eq_type, itm in self.equipment.items():
             if itm:
+                color = itm.rarity_color
+                pygame.draw.rect(screen, color, (*self.equipment_positions[eq_type], 55, 55))
                 screen.blit(itm.resize(55), self.equipment_positions[eq_type])
             else:
-                print(self.equipment_positions[eq_type])
-                #pygame.draw.rect(screen, '#ababab', self.equipment_positions[eq_type])
+                pygame.draw.rect(screen, '#ababab', pygame.Rect(*self.equipment_positions[eq_type], 55, 55))
 
-    #add an item/s
-    def get_next_available_space(self, item):
-        for y in range(len(self.items[0])):
-            for x in range(len(self.items)):
-                if not self.items[x][y]:
-                    self.items[x][y] = item
-                    return (x, y)
-        return None
 
+
+    def draw_the_rest(self, screen):
+        if not self.selected == None:
+            screen.blit(self.selected.resize(120), (120, 160))
+            item_stat_font = pygame.font.Font('fonts/Handjet-Regular.ttf', 24)
+            pad = 0
+            for index, stat in enumerate(self.selected.stat_names):
+                if not getattr(self.selected, self.selected.stat_names[index]) == 0:
+                    stat_surface = item_stat_font.render(f'{self.selected.stat_names[index]} : {getattr(self.selected, self.selected.stat_names[index])}', True, 'Black')
+                    screen.blit(stat_surface, (280, 180 + pad))
+                    pad += 30
+            

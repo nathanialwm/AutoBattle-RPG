@@ -281,10 +281,12 @@ def battle_instance():
             player.p1.exp += exp_gained
             roll_for_item = random.randint(1,10)
             for _ in range(0,10):
-                new_item = equip.Item()
-                new_item.roll_item(active_enemy)
-                player_inventory.get_next_available_space(new_item)
-            if roll_for_item == 10:
+                if player.p1.num_items < player.p1.inventory_size:
+                    new_item = equip.Item()
+                    new_item.roll_item(active_enemy)
+                    player_inventory.get_next_available_space(new_item)
+                    player.p1.num_items += 1
+            if roll_for_item == 10 and player.p1.num_items < player.p1.inventory_size:
                 new_item = equip.Item()
                 new_item.roll_item(active_enemy)
                 player_inventory.get_next_available_space(new_item)
@@ -407,13 +409,12 @@ while running:
 
                     if pygame.mouse.get_pressed()[2]:
                         #remove item from inventory grid
+                        if not player_inventory.equipment[item.eq_type] == None:
+                            all_items.remove(player_inventory.equipment[item.eq_type])
+                            del player_inventory.equipment[item.eq_type]
+
                         player.p1.num_items -= 1
                         player_inventory.move_item_image(screen, item)
-                        #refresh items list
-                        all_items.remove(item)
-                        all_items = equip.Item.all_items
-
-                            
                         
 
     # Hover effects for top menu
@@ -471,6 +472,7 @@ while running:
     if equip_screen:
         player_inventory.draw(screen)
         player_inventory.draw_equips(screen)
+        player_inventory.draw_the_rest(screen)
         for item in all_items:
             if item.rect.collidepoint(pygame.mouse.get_pos()):
                 tooltip_font = pygame.font.Font('fonts/Roboto-Regular.ttf', 20)
