@@ -197,8 +197,14 @@ class Inventory:
                 pygame.draw.rect(screen,color,rect)
                 if self.items[x][y]:
                     screen.blit(self.items[x][y].resize(55), (rect[0] +5, rect[1] +5, rect[2], rect[3]))
-
-    def remove_item_image(self, item):
+    def select_item(self, item):
+        for x in range(self.col):
+            for y in range(self.rows):
+                if self.items[x][y] == item:
+                    self.selected = item
+                    return
+                
+    def remove_item(self, item):
     # Remove the item's image from the grid
         for x in range(self.col):
             for y in range(self.rows):
@@ -206,7 +212,7 @@ class Inventory:
                     self.items[x][y] = None
                     return
 
-    def move_item_image(self, screen, item):
+    def move_item(self, screen, item):
     # Remove the item's image from the grid
         for x in range(self.col):
             for y in range(self.rows):
