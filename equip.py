@@ -197,6 +197,7 @@ class Inventory:
                 pygame.draw.rect(screen,color,rect)
                 if self.items[x][y]:
                     screen.blit(self.items[x][y].resize(55), (rect[0] +5, rect[1] +5, rect[2], rect[3]))
+    # select an item for stat display
     def select_item(self, item):
         for x in range(self.col):
             for y in range(self.rows):
@@ -212,7 +213,7 @@ class Inventory:
                     self.items[x][y] = None
                     return
 
-    def move_item(self, screen, item):
+    def equip_item(self, screen, item):
     # Remove the item's image from the grid
         for x in range(self.col):
             for y in range(self.rows):
@@ -220,7 +221,7 @@ class Inventory:
                     self.equipment[item.eq_type] = item
                     self.items[x][y] = None
                     item.rect = item.image.get_rect(topleft=self.equipment_positions[item.eq_type])
-                    self.selected = item     
+                    self.selected = item   
                     return
             
     #add an item/s

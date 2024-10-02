@@ -51,7 +51,7 @@ class Enemy:
         return mit
 
     def player_mitigation(self):
-        mit = round((.95 * ( 1 / (1 + e**(-1.35*(player.p1.defense / self.enemy_this_attack() - 1 ))))), 3)
+        mit = round((.95 * ( 1 / (1 + e**(-1.35*(player.p1.real_defense / self.enemy_this_attack() - 1 ))))), 3)
         return mit
     
 

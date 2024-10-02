@@ -334,7 +334,7 @@ while running:
         if event.type == BATTLE_EVENT:
             # Main battle loop
             # Reset temp health if needed
-            player.p1.temp_health = player.p1.health
+            player.p1.temp_health = player.p1.real_health
             active_enemy.temp_health = active_enemy.health
             # Call main loop
             battle_instance()
@@ -414,10 +414,12 @@ while running:
                         #remove item from inventory grid
                         if not player_inventory.equipment[item.eq_type] == None:
                             all_items.remove(player_inventory.equipment[item.eq_type])
-                            del player_inventory.equipment[item.eq_type]
+                            player_inventory.equipment[item.eq_type] = None
 
                         player.p1.num_items -= 1
-                        player_inventory.move_item(screen, item)
+                        player_inventory.equip_item(screen, item)
+                        player.p1.update_equip_stats(player_inventory)
+                        player.p1.print_stats()
                         
 
     # Hover effects for top menu
