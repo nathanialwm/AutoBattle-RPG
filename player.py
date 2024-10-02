@@ -70,22 +70,22 @@ class Player:
    # dependant properties
    @property
    def real_health(self):
-      return (self.base_vit * 4) + self.health
+      return ((self.base_vit + self.equip_vit) * 4) + self.health
 
    def temp_health(self):
       return self.real_health
 
    @property
    def real_defense(self):
-      return (self.base_fort * 2) + self.defense
+      return ((self.base_fort + self.equip_fort) * 2) + self.defense
 
    @property
    def min_attack(self):
-      return round(self.base_str * 1.5) + self.attack
+      return round((self.base_str + self.equip_str) * 1.5) + self.attack
 
    @property
    def max_attack(self):
-      return round(self.base_str * 3) + self.attack
+      return round((self.base_str + self.equip_str)* 3) + self.attack
    # Roll for player attack turn
    def player_this_attack(self):
             this_attack = random.randint(self.min_attack, self.max_attack)

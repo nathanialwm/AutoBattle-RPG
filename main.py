@@ -382,15 +382,15 @@ while running:
                 if rect.collidepoint(pygame.mouse.get_pos()) and player.p1.stat_points > 0:
                     # update proper player stat
                     if i == 0:  # Vitality
-                        player.p1.vit += 1
+                        player.p1.base_vit += 1
                     elif i == 1:  # Strength
-                        player.p1.str += 1
+                        player.p1.base_str += 1
                     elif i == 2:  # Fortitude
-                        player.p1.fort += 1
+                        player.p1.base_fort += 1
                     elif i == 3:  # Dexterity
-                        player.p1.dex += 1
+                        player.p1.base_dex += 1
                     elif i == 4:  # Agility
-                        player.p1.agi += 1
+                        player.p1.base_agi += 1
 
                     # Deduct a stat point
                     player.p1.stat_points -= 1
