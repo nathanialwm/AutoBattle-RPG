@@ -204,6 +204,10 @@ class Inventory:
                 if self.items[x][y] == item:
                     self.selected = item
                     return
+        for eq_type, eq_item in self.equipment.items():
+            if eq_item == item:
+                self.selected = item
+                return
                 
     def remove_item(self, item):
     # Remove the item's image from the grid
@@ -215,6 +219,10 @@ class Inventory:
 
     def equip_item(self, screen, item):
     # Remove the item's image from the grid
+        for eq_type, eq_item in self.equipment.items():
+            if eq_item == item:
+                pass
+
         for x in range(self.col):
             for y in range(self.rows):
                 if self.items[x][y] == item:
@@ -223,6 +231,7 @@ class Inventory:
                     item.rect = item.image.get_rect(topleft=self.equipment_positions[item.eq_type])
                     self.selected = item   
                     return
+        
             
     #add an item/s
     def get_next_available_space(self, item):

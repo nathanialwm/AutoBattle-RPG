@@ -402,16 +402,17 @@ while running:
                 if item.rect.collidepoint(pygame.mouse.get_pos()) and equip_screen:
                     if pygame.mouse.get_pressed()[0]:
                         #if mouse clicked select item
-                        player_inventory.select_item(item)
                         #if mouse shift clicked delete item
                         if pygame.key.get_mods() & pygame.KMOD_SHIFT:
                             player_inventory.remove_item(item)
                             all_items.remove(item)
                             del item                          
                             player.p1.num_items -= 1
+                        else:
+                            player_inventory.select_item(item)
                     # if mouse right clicked equip item
                     if pygame.mouse.get_pressed()[2]:
-                        #remove item from inventory grid
+                        #remove item from inventory grid 
                         if not player_inventory.equipment[item.eq_type] == None:
                             all_items.remove(player_inventory.equipment[item.eq_type])
                             player_inventory.equipment[item.eq_type] = None
