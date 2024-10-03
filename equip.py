@@ -27,7 +27,7 @@ class Item:
         self.defense = 0  # Defense Value
         self.attack = 0  # Attack Value
         self.drop_chance = 0    # Drop chance
-        self.base_range = [2,7]
+        self.base_range = [1,5]
         
         # Item type
         self.eq_type = ''  # Type of equipment
@@ -64,7 +64,7 @@ class Item:
             if roll > 0.99:
                 self.rarity = 'legendary'
                 # multiplier value based on rarity
-                self.rarity_value = 2.5
+                self.rarity_value = 2
                 # Number of different stats that can be rolled on an item
                 self.stats_rollable = [4,6]
                 # change item background color based on rarity
@@ -72,23 +72,23 @@ class Item:
                 # roll for easter egg item
                 secret_roll = random.random()
                 if secret_roll > 0.99:
-                    self.eq_type = 'gat'
+                    self.rarity = 'gat'
                     self.rarity_value = 4
                     self.stats_rollable = [4,6]
                     self.rarity_color = '#fa7000'
             elif roll > .90:
                 self.rarity = 'epic'
-                self.rarity_value = 1.8
+                self.rarity_value = 1.67
                 self.stats_rollable = [3,5]
                 self.rarity_color = '#a92de3'
             elif roll > .70:
                 self.rarity = 'rare'
-                self.rarity_value = 1.4
+                self.rarity_value = 1.35
                 self.stats_rollable = [3,4]
                 self.rarity_color = '#5b83f0'
             elif roll > .40:
                 self.rarity = 'uncommon'
-                self.rarity_value = 1.2
+                self.rarity_value = 1.15
                 self.stats_rollable = [2,3]
                 self.rarity_color = '#45ed61'
             elif roll <= .40:
@@ -284,4 +284,3 @@ class Inventory:
                     stat_surface = item_stat_font.render(f'{self.selected.stat_names[index]} : {getattr(self.selected, self.selected.stat_names[index])}', True, 'Black')
                     screen.blit(stat_surface, (280, 180 + pad))
                     pad += 30
-            

@@ -280,12 +280,12 @@ def battle_instance():
             exp_gained = active_enemy.exp_award
             player.p1.exp += exp_gained
             roll_for_item = random.randint(1,10)
-            for _ in range(0,10):
-                if player.p1.num_items < player.p1.inventory_size:
-                    new_item = equip.Item()
-                    new_item.roll_item(active_enemy)
-                    player_inventory.get_next_available_space(new_item)
-                    player.p1.num_items += 1
+            # for _ in range(0,10):
+            #     if player.p1.num_items < player.p1.inventory_size:
+            #         new_item = equip.Item()
+            #         new_item.roll_item(active_enemy)
+            #         player_inventory.get_next_available_space(new_item)
+            #         player.p1.num_items += 1
             if roll_for_item == 10 and player.p1.num_items < player.p1.inventory_size:
                 new_item = equip.Item()
                 new_item.roll_item(active_enemy)
@@ -420,6 +420,7 @@ while running:
                         player.p1.num_items -= 1
                         player_inventory.equip_item(screen, item)
                         player.p1.update_equip_stats(player_inventory)
+                        update_battle_texts()
                         player.p1.print_stats()
                         
 
