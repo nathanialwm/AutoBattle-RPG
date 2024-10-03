@@ -99,7 +99,7 @@ class Item:
                 
         roll_rarity(self)
 
-        if self.eq_type == 'gat':
+        if self.rarity == 'gat':
             self.image = pygame.image.load('images/Equipment/gun.png')
         else:
             # roll for number of stats on item

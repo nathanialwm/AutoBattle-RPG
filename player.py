@@ -105,6 +105,10 @@ class Player:
       self.equip_fort = 0
       self.equip_dex = 0
       self.equip_agi = 0
+      self.attack = 0
+      self.defense = 0
+      self.health = 0
+      self.drop_chance = 0
       for item in inventory.equipment.values():
         if item is not None:
             self.equip_vit += item.vit
