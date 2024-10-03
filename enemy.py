@@ -29,21 +29,14 @@ class Enemy:
     def enemy_hit_chance(self):
         hc = round(min(100, max(0, 50+30*((self.dex - player.p1.agi) / player.p1.agi))))
         hit_rand = random.randint(0, 100)
-        if hit_rand > hc:
-            did_hit = False
-        else: 
-            did_hit = True
-        return did_hit
+        return hit_rand <= hc
+
     
     # player hit_chance is defined in enemy.py to avoid circular imports and keep main.py clean
     def player_hit_chance(self):
         hc = round(min(100, max(0, 50+30*((player.p1.dex - self.agi) / self.agi))))
         hit_rand = random.randint(0, 100)
-        if hit_rand > hc:
-            did_hit = False
-        else: 
-            did_hit = True
-        return did_hit
+        return hit_rand <= hc
         
     # determine damage mitigation for player and enemy
     def enemy_mitigation(self):
