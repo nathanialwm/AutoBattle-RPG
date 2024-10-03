@@ -2,8 +2,6 @@ import player
 from math import e
 import random
 
-d = 0
-a = 0
 class Enemy:
     #Create array for looping through all existing enemies
     all_enemies = []
@@ -31,21 +29,14 @@ class Enemy:
     def enemy_hit_chance(self):
         hc = round(min(100, max(0, 50+30*((self.dex - player.p1.agi) / player.p1.agi))))
         hit_rand = random.randint(0, 100)
-        if hit_rand > hc:
-            did_hit = False
-        else: 
-            did_hit = True
-        return did_hit
+        return hit_rand <= hc
+
     
     # player hit_chance is defined in enemy.py to avoid circular imports and keep main.py clean
     def player_hit_chance(self):
         hc = round(min(100, max(0, 50+30*((player.p1.dex - self.agi) / self.agi))))
         hit_rand = random.randint(0, 100)
-        if hit_rand > hc:
-            did_hit = False
-        else: 
-            did_hit = True
-        return did_hit
+        return hit_rand <= hc
         
     # determine damage mitigation for player and enemy
     def enemy_mitigation(self):
@@ -53,7 +44,7 @@ class Enemy:
         return mit
 
     def player_mitigation(self):
-        mit = round((.95 * ( 1 / (1 + e**(-1.35*(player.p1.defense / self.enemy_this_attack() - 1 ))))), 3)
+        mit = round((.95 * ( 1 / (1 + e**(-1.35*(player.p1.real_defense / self.enemy_this_attack() - 1 ))))), 3)
         return mit
     
 
@@ -68,31 +59,31 @@ class Boss(Enemy):
 
 # Create the enemy objects
 Mouse = Enemy(name="Mouse",dex=4,agi=4,health=10,temphealth=10,defense=5,min_attack=3, max_attack=6,
-              exp=500,drop=1,battling=False)
+              exp=5,drop=1,battling=False)
 
 Giant_Rat = Enemy(name="Giant Rat",dex=15,agi=13,health=45,temphealth=45,defense=12,min_attack=13, max_attack=24,
-                  exp=23,drop=1.1,battling=False)
+                  exp=23,drop=1.15,battling=False)
 
 Rabid_Dog = Enemy(name="Rabid Dog",dex=22,agi=33,health=80,temphealth=80,defense=14,min_attack=46, max_attack=61,
-                  exp=46,drop=1.15,battling=False)
+                  exp=46,drop=1.25,battling=False)
 
 Skeleton = Enemy(name="Skeleton",dex=41,agi=39,health=200,temphealth=200,defense=22,min_attack=43, max_attack=66,
-                 exp=99,drop=1.2,battling=False)
+                 exp=99,drop=1.35,battling=False)
 
 Thief = Boss(name="Thief",dex=66,agi=66,health=400,temphealth=400,defense=38,min_attack=70, max_attack=81,
-             exp=240,drop=1.3,battling=False,regen=8,crit=15)
+             exp=240,drop=1.5,battling=False,regen=8,crit=15)
 
 Zombie = Enemy(name="Zombie",dex=90,agi=60,health=1000,temphealth=1000,defense=80,min_attack=66, max_attack=103,
-               exp=404,drop=1.35,battling=False)
+               exp=404,drop=1.7,battling=False)
 
 Yeti = Enemy(name="Yeti",dex=120,agi=100,health=1320,temphealth=1320,defense=144,min_attack=120, max_attack=144,
-             exp=829,drop=1.4,battling=False)
+             exp=829,drop=2,battling=False)
 
 Vampire = Enemy(name="Vampire",dex=180,agi=142,health=2200,temphealth=2200,defense=156,min_attack=139, max_attack=164,
-                exp=1502,drop=1.45,battling=False)
+                exp=1502,drop=2.2,battling=False)
 
 Minotaur = Enemy(name="Minotaur",dex=174,agi=168,health=4000,temphealth=4000,defense=220,min_attack=226, max_attack=290,
-                 exp=3360,drop=1.5,battling=False)
+                 exp=3360,drop=2.5,battling=False)
 
 Dragon = Boss(name="Dragon",dex=404,agi=355,health=9999,temphealth=9999,defense=404,min_attack=376, max_attack=420,
-              exp=12999,drop=1.8,battling=False,regen=80,crit=33)
+              exp=12999,drop=3,battling=False,regen=80,crit=33)
