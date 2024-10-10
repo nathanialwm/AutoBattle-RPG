@@ -1,6 +1,30 @@
 import random
 import pygame
 
+item_images ={
+    'helm1': pygame.image.load('images/Equipment//helm1.png'),
+    'helm2': pygame.image.load('images/Equipment/helm2.png'),
+    'helm3': pygame.image.load('images/Equipment/helm3.png'),
+    'armor1': pygame.image.load('images/Equipment/armor1.png'),
+    'armor2': pygame.image.load('images/Equipment/armor2.png'),
+    'armor3': pygame.image.load('images/Equipment/armor3.png'),
+    'neck1': pygame.image.load('images/Equipment/neck1.png'),
+    'neck2': pygame.image.load('images/Equipment/neck2.png'),
+    'boots1': pygame.image.load('images/Equipment/boot1.png'),
+    'boots2': pygame.image.load('images/Equipment/boot2.png'),
+    'boots3': pygame.image.load('images/Equipment/boot3.png'),
+    'sword1': pygame.image.load('images/Equipment/sword1.png'),
+    'sword2': pygame.image.load('images/Equipment/sword2.png'),
+    'sword3': pygame.image.load('images/Equipment/sword3.png'),
+    'axe1': pygame.image.load('images/Equipment/axe1.png'),
+    'axe2': pygame.image.load('images/Equipment/axe2.png'),
+    'axe3': pygame.image.load('images/Equipment/axe3.png'),
+    'bow1': pygame.image.load('images/Equipment/bow1.png'),
+    'bow2': pygame.image.load('images/Equipment/bow2.png'),
+    'bow3': pygame.image.load('images/Equipment/bow3.png'),
+    'gat': pygame.image.load('images/Equipment/gun.png')
+}
+
 class Item:
     # List for iteration
     all_items = []
@@ -40,8 +64,9 @@ class Item:
 
         # Item image
         self.image = None
+        self.equipped = False
+        self.inInventory = False
         self.rect = None
-        self.pos = None
 
         Item.all_items.append(self)
 
@@ -100,45 +125,38 @@ class Item:
         roll_rarity(self)
 
         if self.rarity == 'gat':
-            self.image = pygame.image.load('images/Equipment/gun.png')
+            self.image = item_images['gat']
         else:
             # roll for number of stats on item
             eq_num = random.randint(1,5)
             num_stats = random.randint(self.stats_rollable[0], self.stats_rollable[1])
             # set lists for equipment images
-            armors = [pygame.image.load('images/Equipment/armor1.png'),pygame.image.load('images/Equipment/armor2.png'),
-                      pygame.image.load('images/Equipment/armor3.png')]
-            helms = [pygame.image.load('images/Equipment/helm1.png'),pygame.image.load('images/Equipment/helm2.png'),
-                      pygame.image.load('images/Equipment/helm3.png')]
-            boots = [pygame.image.load('images/Equipment/boot1.png'),pygame.image.load('images/Equipment/boot2.png'),
-                      pygame.image.load('images/Equipment/boot3.png')]
-            necks =  [pygame.image.load('images/Equipment/neck1.png'),pygame.image.load('images/Equipment/neck2.png')]
-            weps = [pygame.image.load('images/Equipment/axe1.png'),pygame.image.load('images/Equipment/axe2.png'),
-                      pygame.image.load('images/Equipment/axe3.png'), pygame.image.load('images/Equipment/sword1.png'),
-                      pygame.image.load('images/Equipment/sword2.png'), pygame.image.load('images/Equipment/sword3.png'),
-                      pygame.image.load('images/Equipment/bow1.png'), pygame.image.load('images/Equipment/bow2.png'),
-                      pygame.image.load('images/Equipment/bow3.png')]
+            armors = ['armor1', 'armor2', 'armor3']
+            helms = ['helm1', 'helm2', 'helm3']
+            boots = ['boots1', 'boots2', 'boots3']
+            necks =  ['neck1', 'neck2']
+            weps = ['sword1', 'sword2', 'sword3', 'axe1', 'axe2', 'axe3', 'bow1', 'bow2', 'bow3']
             # determine stats available and images used based on type
             match eq_num:
                 case 1:
                     self.eq_type = 'armor'
-                    self.image = armors[random.randint(0,2)]
+                    self.image = item_images[armors[random.randint(0,2)]]
                     stats = [0,1,2,3,4,5,6]
                 case 2:
                     self.eq_type = 'weapon'
-                    self.image = weps[random.randint(0,8)]
+                    self.image = item_images[weps[random.randint(0,8)]]
                     stats = [0,1,2,3,4,7]
                 case 3:
                     self.eq_type = 'jewelry'
-                    self.image = necks[random.randint(0,1)]
+                    self.image = item_images[necks[random.randint(0,1)]]
                     stats = [0,1,2,3,4,5,6,7,8]
                 case 4:
                     self.eq_type = 'helm'
-                    self.image = helms[random.randint(0,2)]
+                    self.image = item_images[helms[random.randint(0,2)]]
                     stats = [0,1,2,3,4,5,6]
                 case 5:
                     self.eq_type = 'boot'
-                    self.image = boots[random.randint(0,2)]
+                    self.image = item_images[boots[random.randint(0,2)]]
                     stats = [0,1,2,3,4,5,6]
             self.rect = self.image.get_rect()
 
@@ -214,6 +232,8 @@ class Inventory:
         for x in range(self.col):
             for y in range(self.rows):
                 if self.items[x][y] == item:
+                    self.items[x][y].inInventory = False
+                    self.items[x][y].equipped = False
                     self.items[x][y] = None
                     return
 
@@ -227,6 +247,8 @@ class Inventory:
             for y in range(self.rows):
                 if self.items[x][y] == item:
                     self.equipment[item.eq_type] = item
+                    self.items[x][y].inInventory = False
+                    self.items[x][y].equipped = True
                     self.items[x][y] = None
                     item.rect = item.image.get_rect(topleft=self.equipment_positions[item.eq_type])
                     self.selected = item   
@@ -239,6 +261,7 @@ class Inventory:
             for x in range(len(self.items)):
                 if not self.items[x][y]:
                     self.items[x][y] = item
+                    self.items[x][y].inInventory = True
                     return (x, y)
         return None
     
@@ -269,6 +292,8 @@ class Inventory:
                 color = itm.rarity_color
                 pygame.draw.rect(screen, color, (*self.equipment_positions[eq_type], 55, 55))
                 screen.blit(itm.resize(55), self.equipment_positions[eq_type])
+                itm.equipped = True
+                itm.inInventory = False
             else:
                 pygame.draw.rect(screen, '#ababab', pygame.Rect(*self.equipment_positions[eq_type], 55, 55))
 
